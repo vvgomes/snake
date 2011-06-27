@@ -122,10 +122,17 @@ describe('Snake', function() {
 });
 	
 describe('Apple', function() {
-
-	it('should be placed in a random place inside the surface', function() {
+	
+  it('should be placed in a random place inside the surface', function() {
 		surface = new Surface(5, 5);			
   	apple = new Apple(surface);
 		expect(surface.has(apple.getPosition())).toBeTruthy();
 	});
+  
+  it('should not be placed over the snake body', function() {
+    //create a surface and place a snake
+    //create an apple and try to place it over the snake
+    //observe that the apple was not placed
+    expect(true).toBeFalsy();
+  });
 });  
