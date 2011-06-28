@@ -11,22 +11,28 @@ describe('point', function () {
 	});
 
   it('should be equal to another point with the same coordinates', function() {
-		another = createPoint(1, 2);
+		var another = createPoint(1, 2);
     expect(point.equals(another)).toBeTruthy();
 	});
   
   it('should not be equal to another point with different coordinates', function() {
-    differentX = createPoint(3, 2);
-    differentY = createPoint(1, 3);
-    differentXandY = createPoint(3, 3);
+    var differentX = createPoint(3, 2);
+    var differentY = createPoint(1, 3);
+    var differentXandY = createPoint(3, 3);
     expect(point.equals(differentX)).toBeFalsy();
     expect(point.equals(differentY)).toBeFalsy();
     expect(point.equals(differentXandY)).toBeFalsy();
   });
   
   it('should be able to perform a geometric translation', function() {
-    translated = point.translate(1, 0);
+    var translated = point.translate(1, 0);
     expect(translated.equals(createPoint(2, 2))).toBeTruthy();
+  });
+  
+  it('should be able to render itself as a div', function() {
+    var div = point.render();
+    expect(div.attr('tagName')).toEqual('DIV');
+    expect(div.attr('id')).toEqual('1_2');
   });
 		
 });

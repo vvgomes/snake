@@ -12,6 +12,10 @@ var createPoint = function(x, y) {
   point.translate = function(factorX, factorY) {
     return createPoint(x + factorX, y + factorY);
   };
+  
+  point.render = function() {
+    return $('<div id="' + point.toString() + '" />');
+  };
 	
   return point;
 };
