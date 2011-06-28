@@ -1,23 +1,36 @@
-describe('Position', function () {
+describe('point', function () {  
 	
-	beforeEach(function() {
-		position = new Position(3, 2);
-	});
+  var point;
+  
+  beforeEach(function() {
+    point = createPoint(1, 2);
+  });
 	
-	it('should be initialized with bidimensional coordinates', function() {
-		expect(position.x).toEqual(3);
-		expect(position.y).toEqual(2);
-	});
-	
-	it('should be equal to other position with the same coordinates', function() {
-		expect(position.equals(new Position(3, 2))).toBeTruthy();
-	});
-		
 	it('should be able to render itself as a string', function() {
-		expect(new Position(3, 2).toString()).toEqual('3_2');
+		expect(point.toString()).toBe('1_2');
 	});
+
+  it('should be equal to another point with the same coordinates', function() {
+		another = createPoint(1, 2);
+    expect(point.equals(another)).toBeTruthy();
+	});
+  
+  it('should not be equal to another point with different coordinates', function() {
+    differentX = createPoint(3, 2);
+    differentY = createPoint(1, 3);
+    differentXandY = createPoint(3, 3);
+    expect(point.equals(differentX)).toBeFalsy();
+    expect(point.equals(differentY)).toBeFalsy();
+    expect(point.equals(differentXandY)).toBeFalsy();
+  });
+  
+  it('should be able to perform a geometric translation', function() {
+    translated = point.translate(1, 0);
+    expect(translated.equals(createPoint(2, 2))).toBeTruthy();
+  });
+		
 });
-	
+/*	
 describe('Surface', function() {
 		
 	beforeEach(function() {
@@ -136,3 +149,4 @@ describe('Apple', function() {
     expect(true).toBeFalsy();
   });
 });  
+*/

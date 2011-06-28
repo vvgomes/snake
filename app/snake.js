@@ -1,16 +1,21 @@
-var Position = function(x, y) {
-	this.x = x;
-	this.y = y;
-	
-	this.equals = function(other) {
-		return other.x == this.x && other.y == this.y;
-	};
-	
-	this.toString = function() {
+var createPoint = function(x, y) {
+	var point = {};
+  
+	point.toString = function() {
 		return x + '_' + y;
-	}
-};
+	};
 
+  point.equals = function(other) {
+    return other.toString() === point.toString();
+	};
+  
+  point.translate = function(factorX, factorY) {
+    return createPoint(x + factorX, y + factorY);
+  };
+	
+  return point;
+};
+/*
 var Surface = function(x, y) {
 	var last = new Position(x, y);
 	
@@ -136,3 +141,4 @@ var Apple = function(surface) {
 var randomUpTo = function(maxCell) {
 	return Math.floor((maxCell-1)*Math.random());
 };
+*/
