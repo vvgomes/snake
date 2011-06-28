@@ -33,27 +33,19 @@ var createSurface = function(size) {
   surface.has = function(point) {
     return points.has(point);
   };
+  
+  surface.render = function() {
+    div = $('<div id="surface" />');
+    $.each(points, function(index, point) {
+      div.append(point.render());
+    });
+    return div;
+  };
     
   return surface;
 };
 
 /*
-var Surface = function(x, y) {
-	var last = new Position(x, y);
-	
-	this.has = function(some) {
-		return some.x >= 0 && some.x <= last.x 
-				&& some.y >= 0 && some.y <= last.y;
-	};
-
-	this.cols = function() { 
-		return last.x + 1; 
-	};
-
-	this.rows = function() { 
-		return last.y + 1; 
-	};
-};
 
 var directions = [];
 

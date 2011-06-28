@@ -63,10 +63,27 @@ describe('surface', function() {
   it('should not have a point outside the surface area', function() {
     var outside = createPoint(3, 3);
     expect(surface.has(outside)).toBeFalsy();
-  }); 
+  });
   
-  it('should show me the points', function() {
-    surface.showMeThePoints();
+  it('should be able to render itself as a div', function() {
+    var div = surface.render();
+    expect(div.attr('tagName')).toEqual('DIV');
+    expect(div.attr('id')).toEqual('surface');
+  });
+  
+  it('should be able to render all the points', function() {
+    var div = surface.render();
+    expect(div.html()).toEqual(
+      '<div id="0_0"></div>'+
+      '<div id="0_1"></div>'+
+      '<div id="0_2"></div>'+
+      '<div id="1_0"></div>'+
+      '<div id="1_1"></div>'+
+      '<div id="1_2"></div>'+
+      '<div id="2_0"></div>'+
+      '<div id="2_1"></div>'+
+      '<div id="2_2"></div>'
+    );
   });
 
 });
