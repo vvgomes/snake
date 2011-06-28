@@ -19,6 +19,24 @@ var createPoint = function(x, y) {
 	
   return point;
 };
+
+var createSurface = function(size) {
+  var surface = {};
+  
+  var points = [];
+  size.times(function(x) {
+    size.times(function(y) {
+      points.push(createPoint(x, y));
+    });
+  });  
+  
+  surface.has = function(point) {
+    return points.has(point);
+  };
+    
+  return surface;
+};
+
 /*
 var Surface = function(x, y) {
 	var last = new Position(x, y);

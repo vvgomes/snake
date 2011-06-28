@@ -36,6 +36,41 @@ describe('point', function () {
   });
 		
 });
+
+describe('surface', function() {
+  
+  var surface;
+  
+  beforeEach(function() {
+    surface = createSurface(3);
+  });
+  
+  it('should have a point which coordinates are inside the surface area', function() {
+    var point = createPoint(1, 1);
+    expect(surface.has(point)).toBeTruthy();
+  });
+  
+  it('should have the origin point', function() {
+    var origin = createPoint(0, 0);
+    expect(surface.has(origin)).toBeTruthy();
+  });
+  
+  it('should have the lower right point', function() {
+    var lowerRight = createPoint(2, 2);
+    expect(surface.has(lowerRight)).toBeTruthy();
+  });
+  
+  it('should not have a point outside the surface area', function() {
+    var outside = createPoint(3, 3);
+    expect(surface.has(outside)).toBeFalsy();
+  }); 
+  
+  it('should show me the points', function() {
+    surface.showMeThePoints();
+  });
+
+});
+
 /*	
 describe('Surface', function() {
 		
