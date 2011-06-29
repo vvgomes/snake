@@ -89,38 +89,6 @@ describe('surface', function() {
 });
 
 /*	
-describe('Surface', function() {
-		
-	beforeEach(function() {
-		surface = new Surface(5, 5);
-	});
-
-	it('should contain a position which coordinates are inside surface area', function() {
-    expect(surface.has(new Position(1,2))).toBeTruthy();
-	});
-		
-	it('should not contain a position which coordinates are outside surface area', function() {
-		expect(surface.has(new Position(6,6))).toBeFalsy();
-		expect(surface.has(new Position(-1,-1))).toBeFalsy();
-	});
-		
-	it('should contain the origin', function() {
-		expect(surface.has(new Position(0,0))).toBeTruthy();
-	});
-		
-	it('should contain the last position', function() {
-		expect(surface.has(new Position(5,5))).toBeTruthy();
-	});	
-	
-	it('should give me the number of cols', function() {
-		expect(surface.cols()).toEqual(6);
-	});			
-	
-	it('should give me the number of rows', function() {
-		expect(surface.rows()).toEqual(6);
-	});
-});
-
 describe('Direction', function() {
 
   beforeEach(function() {
