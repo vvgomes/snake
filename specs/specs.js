@@ -6,8 +6,9 @@ describe('point', function () {
     point = createPoint(1, 2);
   });
 	
-	it('should be able to render itself as a string', function() {
-		expect(point.toString()).toBe('1_2');
+	it('should be composed by two-dimensional coordinates', function() {
+		expect(point.x).toBe(1);
+    expect(point.y).toBe(2);
 	});
 
   it('should be equal to another point with the same coordinates', function() {
@@ -29,10 +30,9 @@ describe('point', function () {
     expect(translated.equals(createPoint(2, 2))).toBeTruthy();
   });
   
-  it('should be able to render itself as a div', function() {
-    var div = point.render();
-    expect(div.attr('tagName')).toEqual('DIV');
-    expect(div.attr('id')).toEqual('1_2');
+  it('should be able to render itself as a td', function() {
+    var td = point.render();
+    expect(td.attr('tagName')).toEqual('TD');
   });
 		
 });
@@ -65,24 +65,20 @@ describe('surface', function() {
     expect(surface.has(outside)).toBeFalsy();
   });
   
-  it('should be able to render itself as a div', function() {
-    var div = surface.render();
-    expect(div.attr('tagName')).toEqual('DIV');
-    expect(div.attr('id')).toEqual('surface');
+  it('should be able to render itself as a table', function() {
+    var table = surface.render();
+    expect(table.attr('tagName')).toEqual('TABLE');
+    expect(table.attr('id')).toEqual('surface');
   });
   
   it('should be able to render all the points', function() {
-    var div = surface.render();
-    expect(div.html()).toEqual(
-      '<div id="0_0"></div>'+
-      '<div id="0_1"></div>'+
-      '<div id="0_2"></div>'+
-      '<div id="1_0"></div>'+
-      '<div id="1_1"></div>'+
-      '<div id="1_2"></div>'+
-      '<div id="2_0"></div>'+
-      '<div id="2_1"></div>'+
-      '<div id="2_2"></div>'
+    var table = surface.render();
+    expect(table.html()).toEqual(
+      '<tbody>'+
+      '<tr><td></td><td></td><td></td></tr>'+
+      '<tr><td></td><td></td><td></td></tr>'+
+      '<tr><td></td><td></td><td></td></tr>'+
+      '</tbody>'
     );
   });
 

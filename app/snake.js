@@ -1,12 +1,11 @@
 var createPoint = function(x, y) {
 	var point = {};
   
-	point.toString = function() {
-		return x + '_' + y;
-	};
+  point.x = x;
+  point.y = y;
 
   point.equals = function(other) {
-    return other.toString() === point.toString();
+    return other.x === x && other.y === y;
 	};
   
   point.translate = function(factorX, factorY) {
@@ -14,7 +13,7 @@ var createPoint = function(x, y) {
   };
   
   point.render = function() {
-    return $('<div id="' + point.toString() + '" />');
+    return $('<td />');
   };
 	
   return point;
@@ -35,11 +34,15 @@ var createSurface = function(size) {
   };
   
   surface.render = function() {
-    div = $('<div id="surface" />');
-    $.each(points, function(index, point) {
-      div.append(point.render());
+    var table = $('<table id="surface" />');
+    size.times(function(line) {
+      var tr = $('<tr />');
+      size.times(function(column) {
+        tr.append(points[size * line + column].render());      
+      });
+      table.append(tr);
     });
-    return div;
+    return table;
   };
     
   return surface;
