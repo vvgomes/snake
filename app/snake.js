@@ -1,50 +1,64 @@
 var createPoint = function(x, y) {
 	var point = {};
-  
+
   point.x = x;
   point.y = y;
+
+	var empty = true;
 
   point.equals = function(other) {
     return other.x === x && other.y === y;
 	};
-  
+
   point.translate = function(factorX, factorY) {
     return createPoint(x + factorX, y + factorY);
   };
-  
+
+	point.empty = function() {
+		return empty;
+	};
+
+	point.use = function() {
+		empty = false;
+	};
+
+	point.release = function() {
+		empty = true;
+	};
+
   point.render = function() {
     return $('<td />');
   };
-	
+
   return point;
 };
 
 var createSurface = function(size) {
   var surface = {};
-  
+
   var points = [];
   size.times(function(x) {
     size.times(function(y) {
       points.push(createPoint(x, y));
     });
-  });  
-  
+  });
+
   surface.has = function(point) {
     return points.has(point);
   };
-  
+
   surface.render = function() {
     var table = $('<table id="surface" />');
     size.times(function(line) {
       var tr = $('<tr />');
       size.times(function(column) {
-        tr.append(points[size * line + column].render());      
+        tr.append(points[size * line + column].render());
       });
       table.append(tr);
     });
     return table;
   };
-    
+
   return surface;
 };
 
@@ -52,27 +66,27 @@ var createSurface = function(size) {
 
 var directions = [];
 
-var Direction = function(key, oppositeKey, nextPosition) {	
+var Direction = function(key, oppositeKey, nextPosition) {
 	this.key = key;
-	this.nextPosition = nextPosition;		
-	
+	this.nextPosition = nextPosition;
+
 	this.isOppositeTo = function(other) {
 		var opposite = directions[oppositeKey];
 		return other.equals(opposite);
 	};
-	
+
 	this.equals = function(other) {
 		return other.key == key;
 	};
-	
+
 	directions[key] = this;
 };
 
 var keys = {
 	up: 38,
-	down: 40,	
+	down: 40,
 	right: 39,
-	left: 37 
+	left: 37
 };
 
 var createDirections = function() {
@@ -96,7 +110,7 @@ var Snake = function(surface, position, direction) {
 	var position = position;
 	var body = [];
 	var alive = true;
-	
+
 	this.move = function() {
 		candidate = direction.nextPosition(position);
 
@@ -107,19 +121,19 @@ var Snake = function(surface, position, direction) {
 		 	die();
 		 }
 	};
-	
+
 	this.turnTo = function(newDirection) {
 		(!direction.isOppositeTo(newDirection)) && (direction = newDirection);
 	};
-	
+
 	this.stillAlive = function() {
 		return alive;
 	};
-	
+
 	this.getDirection = function() {
 		return direction;
-	};	
-	
+	};
+
 	this.getPosition = function() {
 		return position;
 	};
@@ -129,7 +143,7 @@ var Snake = function(surface, position, direction) {
 	this.grow = function() {
 		body.push(position);
 	};
-	
+
 	var moveBody = function() {
 		var p = position
 		for (var i = 0; i < body.length; i++) {
@@ -138,7 +152,7 @@ var Snake = function(surface, position, direction) {
 			p = aux;
 		}
 	};
-	
+
 	var die = function() {
 		alive = false;
 	};
@@ -149,7 +163,7 @@ var Apple = function(surface) {
 	var x = randomUpTo(surface.cols()-1);
 	var y = randomUpTo(surface.rows()-1);
 	var position = new Position(x,y);
-	
+
 	this.getPosition = function() {
 		return position;
 	};
@@ -159,3 +173,4 @@ var randomUpTo = function(maxCell) {
 	return Math.floor((maxCell-1)*Math.random());
 };
 */
+

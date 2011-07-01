@@ -1,7 +1,14 @@
-$(document).ready(function() {	
-	var game = new Game();
-	game.init();
-	setInterval(game.loop, 100);
+$(document).ready(function() {
+	//var game = new Game();
+	//game.init();
+	//setInterval(game.loop, 100);
+
+	console.log('here');
+	var surface = createSurface(3);
+	var table = surface.render();
+	console.log(table);
+	$('body').append(table);
+
 });
 
 var Game = function() {
@@ -12,8 +19,8 @@ var Game = function() {
 		initModels();
 		setupEvents();
 		renderSurface();
-	}; 
-	
+	};
+
 	this.loop = function() {
 		snake.move();
 		renderSnake();
@@ -22,21 +29,21 @@ var Game = function() {
 			apple = new Apple(surface);
 		}
 	};
-	
+
 	var initModels = function() {
-		createDirections();		
+		createDirections();
 		surface = new Surface(20,20);
 		snake = new Snake(surface, new Position(randomUpTo(surface.cols()),randomUpTo(surface.rows())), directions[keys.right]);
 		apple = new Apple(surface);
 	};
-	
+
 	var setupEvents = function() {
 		document.onkeydown = function(e) {
 			var newDirection = directions[e.keyCode];
 			newDirection && snake.turnTo(newDirection);
-		};		
+		};
 	};
-	
+
 	var renderSurface = function() {
 		$('<table/>').attr('id', 'matrix').appendTo('body');
 		var y = 0;
@@ -53,15 +60,15 @@ var Game = function() {
 		renderSnake();
 	};
 
-	var renderSnake = function() {		
+	var renderSnake = function() {
 		var position = snake.getPosition();
 		var selector = '#' + position.toString();
 		removeBackground('#matrix td');
 		$('#matrix td').addClass('whiteBackground');
-		
+
 		removeBackground(selector);
 		$(selector).addClass('blackBackground');
-		
+
 		var body = snake.getBody();
 		for (var i = 0; i < body.length; i++) {
 			var bodyValue = '#' + body[i];
@@ -75,10 +82,11 @@ var Game = function() {
 		$(dom).removeClass('whiteBackground');
 		$(dom).removeClass('redBackground');
 	}
-	
+
 	var renderFood = function() {
 		var food = '#' + apple.getPosition();
 		removeBackground(food);
 		$(food).addClass('redBackground');
 	};
 };
+
