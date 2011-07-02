@@ -26,7 +26,7 @@ var createPoint = function(x, y) {
 		empty = true;
 	};
 
-  point.render = function() {
+  point.toDom = function() {
     return $('<td />');
   };
 
@@ -43,23 +43,40 @@ var createSurface = function(size) {
     });
   });
 
+	var apple;
+
   surface.has = function(point) {
     return points.has(point);
   };
 
-  surface.render = function() {
+  surface.toDom = function() {
     var table = $('<table id="surface" />');
     size.times(function(line) {
       var tr = $('<tr />');
       size.times(function(column) {
-        tr.append(points[size * line + column].render());
+        tr.append(points[size * line + column].toDom());
       });
       table.append(tr);
     });
     return table;
   };
 
+	var availablePoints = function() {
+		return points.filter(function(point){
+      return point.empty();
+    });
+	};
+
+	surface.placeApple = function() {
+		var position = availablePoints().random();
+		apple = createApple(position);
+	};
+
   return surface;
+};
+
+var createApple = function(point) {
+	point.use();
 };
 
 /*

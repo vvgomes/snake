@@ -9,6 +9,8 @@ $(document).ready(function() {
 	console.log(table);
 	$('body').append(table);
 
+
+
 });
 
 var Game = function() {

@@ -46,8 +46,8 @@ describe('point', function () {
 	});
 
   it('should be able to render itself as a td', function() {
-    var td = point.render();
-    expect(td.attr('tagName')).toEqual('TD');
+		var element = point.toDom();
+		expect(element.attr('tagName')).toBe('TD');
   });
 
 });
@@ -81,14 +81,14 @@ describe('surface', function() {
   });
 
   it('should be able to render itself as a table', function() {
-    var table = surface.render();
-    expect(table.attr('tagName')).toEqual('TABLE');
-    expect(table.attr('id')).toEqual('surface');
+    var element = surface.toDom();
+    expect(element.attr('tagName')).toEqual('TABLE');
+    expect(element.attr('id')).toEqual('surface');
   });
 
   it('should be able to render all the points', function() {
-    var table = surface.render();
-    expect(table.html()).toEqual(
+    var table = surface.toDom();
+    expect(table.html()).toBe(
       '<tbody>'+
       '<tr><td></td><td></td><td></td></tr>'+
       '<tr><td></td><td></td><td></td></tr>'+
@@ -97,9 +97,31 @@ describe('surface', function() {
     );
   });
 
+	it('should be able to place an apple at a random point', function() {
+		surface.placeApple();
+	});
+
 });
 
+describe('apple', function() {
 
+	var apple;
+	var point;
+
+  beforeEach(function() {
+		point = createPoint(1, 2);
+    apple = createApple(point);
+  });
+
+	it('should mark its position as an used poit', function() {
+		expect(point.empty()).toBeFalsy();
+	});
+
+	it('should change the point style', function() {
+
+	});
+
+});
 
 
 /*
