@@ -107,6 +107,17 @@ describe('apple', function() {
 
 });
 
+describe('direction', function() {
+
+	it('should tell me the next point', function() {
+		var direction = createDirection([0, 1]);
+		var current = createPoint(1, 1);
+		var next = createPoint(1, 2);
+		expect(direction.next(current).equals(next)).toBeTruthy();
+	});
+
+});
+
 
 /*
 describe('Direction', function() {

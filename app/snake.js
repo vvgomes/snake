@@ -75,6 +75,22 @@ var createApple = function(point) {
 	return apple;
 };
 
+var createDirection = function(t) {
+	var direction = {};
+
+	direction.next = function(point) {
+		return point.translate(t[0], t[1]);
+	};
+
+	return direction;
+};
+
+	// U  0 -1  D
+  // D  0  1  U
+  // R  1  0  L
+  // L -1  0  R
+
+
 /*
 
 var directions = [];
