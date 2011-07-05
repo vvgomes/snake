@@ -11,19 +11,19 @@ describe('point', function () {
     expect(point.y).toBe(2);
 	});
 
-  it('should be equal to another point with the same coordinates', function() {
+	it('should be equal to another point with the same coordinates', function() {
 		var another = createPoint(1, 2);
-    expect(point.equals(another)).toBeTruthy();
+	  expect(point.equals(another)).toBeTruthy();
 	});
 
-  it('should not be equal to another point with different coordinates', function() {
-    var differentX = createPoint(3, 2);
-    var differentY = createPoint(1, 3);
-    var differentXandY = createPoint(3, 3);
-    expect(point.equals(differentX)).toBeFalsy();
-    expect(point.equals(differentY)).toBeFalsy();
-    expect(point.equals(differentXandY)).toBeFalsy();
-  });
+	it('should not be equal to another point with different coordinates', function() {
+	  var differentX = createPoint(3, 2);
+	  var differentY = createPoint(1, 3);
+	  var differentXandY = createPoint(3, 3);
+	  expect(point.equals(differentX)).toBeFalsy();
+	  expect(point.equals(differentY)).toBeFalsy();
+	  expect(point.equals(differentXandY)).toBeFalsy();
+	});
 
   it('should be able to perform a geometric translation', function() {
     var translated = point.translate(1, 0);
@@ -44,11 +44,6 @@ describe('point', function () {
 		point.release();
 		expect(point.empty()).toBeTruthy();
 	});
-
-  it('should be able to render itself as a td', function() {
-		var element = point.toDom();
-		expect(element.attr('tagName')).toBe('TD');
-  });
 
 });
 
@@ -80,25 +75,17 @@ describe('surface', function() {
     expect(surface.has(outside)).toBeFalsy();
   });
 
-  it('should be able to render itself as a table', function() {
-    var element = surface.toDom();
-    expect(element.attr('tagName')).toEqual('TABLE');
-    expect(element.attr('id')).toEqual('surface');
-  });
-
-  it('should be able to render all the points', function() {
-    var table = surface.toDom();
-    expect(table.html()).toBe(
-      '<tbody>'+
-      '<tr><td></td><td></td><td></td></tr>'+
-      '<tr><td></td><td></td><td></td></tr>'+
-      '<tr><td></td><td></td><td></td></tr>'+
-      '</tbody>'
-    );
-  });
-
-	it('should be able to place an apple at a random point', function() {
+	it('should place an apple at a random position', function() {
 		surface.placeApple();
+		var first = surface.apple().position();
+		surface.placeApple();
+		var second = surface.apple().position();
+		expect(first.equals(second)).toBeFalsy();
+	});
+
+	it('shold use the point where an apple is placed', function() {
+		surface.placeApple();
+		expect(surface.apple().position().empty()).toBeFalsy();
 	});
 
 });
@@ -113,12 +100,9 @@ describe('apple', function() {
     apple = createApple(point);
   });
 
-	it('should mark its position as an used poit', function() {
-		expect(point.empty()).toBeFalsy();
-	});
-
-	it('should change the point style', function() {
-
+	it('should tell me about its position', function() {
+		var expected = createPoint(1, 2);
+		expect(apple.position().equals(expected)).toBeTruthy();
 	});
 
 });
