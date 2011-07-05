@@ -109,41 +109,42 @@ describe('apple', function() {
 
 describe('direction', function() {
 
-	it('should tell me the next point', function() {
-		var direction = createDirection([0, 1]);
+	var right;
+
+	beforeEach(function() {
+		right = createDirection(1, 0);
+	});
+
+	it('should give me the next point based on a translation factors', function() {
 		var current = createPoint(1, 1);
-		var next = createPoint(1, 2);
-		expect(direction.next(current).equals(next)).toBeTruthy();
+		var next = createPoint(2, 1);
+		expect(right.next(current).equals(next)).toBeTruthy();
+	});
+
+	it('should be equal to another direction with the same translation factors', function() {
+		var anotherRight = createDirection(1, 0);
+		expect(right.equals(anotherRight)).toBeTruthy();
+	});
+
+	it('should not be equal to another direction with different translation factors', function() {
+	  var up = createDirection(0, -1);
+	  var down = createDirection(0, 1);
+	  var left = createDirection(-1, 0);
+	  expect(right.equals(up)).toBeFalsy();
+	  expect(right.equals(down)).toBeFalsy();
+	  expect(right.equals(left)).toBeFalsy();
+	});
+
+	it('should tell me about the opposite direction', function() {
+		var left = createDirection(-1, 0);
+		expect(right.opposite().equals(left)).toBeTruthy();
+		expect(left.opposite().equals(right)).toBeTruthy();
 	});
 
 });
 
 
 /*
-describe('Direction', function() {
-
-  beforeEach(function() {
-		up = new Direction(keys.up, keys.down, function(p) {
-			return new Position(p.x, p.y - 1);
-		});
-	});
-
-	it('should give me the next position', function() {
-		var next = up.nextPosition(new Position(2, 2));
-		expect(next.equals(new Position(2,1))).toBeTruthy();
-	});
-
-	it('should give me the oposite direction', function() {
-		var down = new Direction(keys.down);
-		expect(up.isOppositeTo(down)).toBeTruthy();
-	});
-
-	it('should be equal to another direction with the same key', function() {
-    var other = new Direction(keys.up);
-    expect(up.equals(other)).toBeTruthy();
-  });
-});
-
 describe('Snake', function() {
 
 	beforeEach(function() {

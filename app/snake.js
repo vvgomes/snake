@@ -75,64 +75,28 @@ var createApple = function(point) {
 	return apple;
 };
 
-var createDirection = function(t) {
+var createDirection = function(factorX, factorY) {
 	var direction = {};
 
 	direction.next = function(point) {
-		return point.translate(t[0], t[1]);
+		return point.translate(factorX, factorY);
+	};
+
+	direction.factorX = factorX;
+	direction.factorY = factorY;
+
+	direction.equals = function(other) {
+		return other.factorX === factorX && other.factorY === factorY;
+	};
+
+	direction.opposite = function() {
+		return createDirection(-factorX, -factorY);
 	};
 
 	return direction;
 };
 
-	// U  0 -1  D
-  // D  0  1  U
-  // R  1  0  L
-  // L -1  0  R
-
-
 /*
-
-var directions = [];
-
-var Direction = function(key, oppositeKey, nextPosition) {
-	this.key = key;
-	this.nextPosition = nextPosition;
-
-	this.isOppositeTo = function(other) {
-		var opposite = directions[oppositeKey];
-		return other.equals(opposite);
-	};
-
-	this.equals = function(other) {
-		return other.key == key;
-	};
-
-	directions[key] = this;
-};
-
-var keys = {
-	up: 38,
-	down: 40,
-	right: 39,
-	left: 37
-};
-
-var createDirections = function() {
-	new Direction(keys.up, keys.down, function(p) {
-		return new Position(p.x, p.y-1);
-	});
-	new Direction(keys.down, keys.up, function(p) {
-		return new Position(p.x, p.y+1);
-	});
-	new Direction(keys.left, keys.right, function(p) {
-		return new Position(p.x-1, p.y);
-	});
-	new Direction(keys.right, keys.left, function(p) {
-		return new Position(p.x+1, p.y);
-	});
-};
-
 var Snake = function(surface, position, direction) {
 	var surface = surface;
 	var direction = direction;
@@ -185,21 +149,6 @@ var Snake = function(surface, position, direction) {
 	var die = function() {
 		alive = false;
 	};
-};
-
-var Apple = function(surface) {
-	var surface = surface;
-	var x = randomUpTo(surface.cols()-1);
-	var y = randomUpTo(surface.rows()-1);
-	var position = new Position(x,y);
-
-	this.getPosition = function() {
-		return position;
-	};
-};
-
-var randomUpTo = function(maxCell) {
-	return Math.floor((maxCell-1)*Math.random());
 };
 */
 
