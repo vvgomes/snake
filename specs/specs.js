@@ -79,6 +79,13 @@ describe('surface', function() {
 		expect(surface.availablePoints().length).toBe(9);
 	});
 
+	it('should be able to figure out which points are available', function() {
+		var points = surface.availablePoints();
+		points[0].use();
+		points[1].use();
+		expect(surface.availablePoints().length).toBe(7);
+	});
+
 });
 
 describe('apple', function() {
@@ -168,19 +175,17 @@ describe('directions', function() {
 
 describe('snake', function() {
 
-	// please, stub out things
-
 	var snake;
 
 	beforeEach(function(){
-		var position = createPoint(2, 2);
+		var position = createPoint(1, 1);
 		snake = createSnake(position, directions.right);
 	});
 
 	it('should move based on direction', function() {
-		var expected = createPoint(2, 3);
+		var next = createPoint(2, 1);
 		snake.move();
-		expect(snake.position().equals(expected)).toBeTruthy();
+		expect(snake.position().equals(next)).toBeTruthy();
 	});
 
 });

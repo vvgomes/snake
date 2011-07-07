@@ -96,15 +96,16 @@ var directions = {
 	up: createDirection(0, -1)
 };
 
-var createSnake = function(position, direction) {
+var createSnake = function(point, direction) {
 	var snake = {};
+	var position = point;
 
 	snake.move = function() {
-
+		position = direction.next(position);
 	};
 
 	snake.position = function() {
-		return direction.next(position);
+		return position;
 	};
 
 	return snake;
