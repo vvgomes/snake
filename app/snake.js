@@ -39,27 +39,14 @@ var createSurface = function(size) {
     });
   });
 
-
   surface.has = function(point) {
     return points.has(point);
   };
 
-	var availablePoints = function() {
+	surface.availablePoints = function() {
 		return points.filter(function(point){
       return point.empty();
     });
-	};
-
-	var apple;
-
-	surface.placeApple = function() {
-		var position = availablePoints().random();
-		position.use();
-		apple = createApple(position);
-	};
-
-	surface.apple = function() {
-		return apple;
 	};
 
   return surface;

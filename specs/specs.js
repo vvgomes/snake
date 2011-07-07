@@ -75,17 +75,8 @@ describe('surface', function() {
     expect(surface.has(outside)).toBeFalsy();
   });
 
-	it('should place an apple at a random position', function() {
-		surface.placeApple();
-		var first = surface.apple().position();
-		surface.placeApple();
-		var second = surface.apple().position();
-		expect(first.equals(second)).toBeFalsy();
-	});
-
-	it('shold use the point where an apple is placed', function() {
-		surface.placeApple();
-		expect(surface.apple().position().empty()).toBeFalsy();
+	it('should have all the points available by default', function() {
+		expect(surface.availablePoints().length).toBe(9);
 	});
 
 });
