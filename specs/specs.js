@@ -93,16 +93,24 @@ describe('surface', function() {
 describe('apple', function() {
 
 	var apple;
-	var point;
 
   beforeEach(function() {
-		point = createPoint(1, 2);
+		var point = createPoint(1, 2);
     apple = createApple(point);
   });
 
 	it('should tell me about its position', function() {
 		var expected = createPoint(1, 2);
 		expect(apple.position().equals(expected)).toBeTruthy();
+	});
+
+	it('should mark its position as used point', function() {
+		expect(apple.position().empty()).toBeFalsy();
+	});
+
+	it('should release the point after destroied', function() {
+		apple.destroy();
+		expect(apple.position().empty()).toBeTruthy();
 	});
 
 });
@@ -139,6 +147,49 @@ describe('direction', function() {
 		var left = createDirection(-1, 0);
 		expect(right.opposite().equals(left)).toBeTruthy();
 		expect(left.opposite().equals(right)).toBeTruthy();
+	});
+
+});
+
+describe('directions', function() {
+
+	it('should give me right', function() {
+		var expected = createDirection(1, 0);
+		expect(directions.right.equals(expected)).toBeTruthy();
+	});
+
+	it('should give me left', function() {
+		var expected = createDirection(-1, 0);
+		expect(directions.left.equals(expected)).toBeTruthy();
+	});
+
+	it('should give me down', function() {
+		var expected = createDirection(0, 1);
+		expect(directions.down.equals(expected)).toBeTruthy();
+	});
+
+	it('should give me up', function() {
+		var expected = createDirection(0, -1);
+		expect(directions.up.equals(expected)).toBeTruthy();
+	});
+
+});
+
+describe('snake', function() {
+
+	// please, stub out things
+
+	var snake;
+
+	beforeEach(function(){
+		var position = createPoint(2, 2);
+		snake = createSnake(position, directions.right);
+	});
+
+	it('should move based on direction', function() {
+		var expected = createPoint(2, 3);
+		snake.move();
+		expect(snake.position().equals(expected)).toBeTruthy();
 	});
 
 });

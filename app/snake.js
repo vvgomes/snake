@@ -68,8 +68,14 @@ var createSurface = function(size) {
 var createApple = function(point) {
 	var apple = {};
 
+	point.use();
+
 	apple.position = function() {
 		return point;
+	};
+
+	apple.destroy = function() {
+		point.release();
 	};
 
 	return apple;
@@ -94,6 +100,27 @@ var createDirection = function(factorX, factorY) {
 	};
 
 	return direction;
+};
+
+var directions = {
+	right: createDirection(1, 0),
+	left: createDirection(-1, 0),
+	down: createDirection(0, 1),
+	up: createDirection(0, -1)
+};
+
+var createSnake = function(position, direction) {
+	var snake = {};
+
+	snake.move = function() {
+
+	};
+
+	snake.position = function() {
+		return direction.next(position);
+	};
+
+	return snake;
 };
 
 /*
