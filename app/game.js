@@ -1,94 +1,78 @@
 $(document).ready(function() {
-	//var game = new Game();
-	//game.init();
-	//setInterval(game.loop, 100);
 
-	console.log('here');
-	var surface = createSurface(3);
-	var table = surface.render();
-	console.log(table);
-	$('body').append(table);
+	var surface = createSurface(10);
+	var position = surface.goodPoint();
+	var snake = createSnake(position, directions.right);
+	var somewhere = surface.availablePoints().random();
+	var apple = createApple(somewhere);
 
-
-
-});
-
-var Game = function() {
-	var surface;
-	var snake;
-	var apple;
-	this.init = function() {
-		initModels();
-		setupEvents();
-		renderSurface();
+	var keys = {
+		'37': directions.left,
+		'38': directions.up,
+		'39': directions.right,
+		'40': directions.down
 	};
 
-	this.loop = function() {
-		snake.move();
-		renderSnake();
-		if(snake.getPosition().equals(apple.getPosition())) {
-			snake.grow();
-			apple = new Apple(surface);
+	document.onkeydown = function(e) {
+		var newDirection = keys[e.keyCode];
+		newDirection && turnSnake(newDirection);
+	};
+
+	var count = 0;
+	var action = 'move';
+
+	function loop() {
+		console.log('loop: '+(count++));
+
+		// initial check (self colision might have happened)
+		console.log('snake alive: '+snake.alive());
+		if(!snake.alive()) {
+			console.log('snake is dead :(');
+			return;
 		}
-	};
 
-	var initModels = function() {
-		createDirections();
-		surface = new Surface(20,20);
-		snake = new Snake(surface, new Position(randomUpTo(surface.cols()),randomUpTo(surface.rows())), directions[keys.right]);
-		apple = new Apple(surface);
-	};
+		console.log('apple at: '+pp(apple.position()));
 
-	var setupEvents = function() {
-		document.onkeydown = function(e) {
-			var newDirection = directions[e.keyCode];
-			newDirection && snake.turnTo(newDirection);
-		};
-	};
+		snake[action]();
+		// check if it is still alive (self colision might have happened)
+		console.log('snake at: '+pp(snake.position()));
 
-	var renderSurface = function() {
-		$('<table/>').attr('id', 'matrix').appendTo('body');
-		var y = 0;
-		while(y < surface.rows()) {
-			$('<tr/>').attr('id', y).appendTo('#matrix');
-			var x = 0;
-			while(x < surface.cols()) {
-				var position = new Position(x, y);
-				$('<td/>').attr('id', position.toString()).appendTo('#'+y);
-				x++;
-			}
-			y++;
+		// surface boundaries check
+		var inside = surface.has(snake.position());
+		console.log('snake is out: '+(!inside));
+		(!inside) && snake.die();
+
+		// apple check
+		var eat = snake.position().equals(apple.position());
+		console.log('snake eat: '+eat);
+		action = eat ? 'grow' : 'move';
+		if(eat) {
+			apple.destroy();
+			var newPosition = surface.availablePoints().random();
+			apple = createApple(newPosition);
 		}
-		renderSnake();
-	};
-
-	var renderSnake = function() {
-		var position = snake.getPosition();
-		var selector = '#' + position.toString();
-		removeBackground('#matrix td');
-		$('#matrix td').addClass('whiteBackground');
-
-		removeBackground(selector);
-		$(selector).addClass('blackBackground');
-
-		var body = snake.getBody();
-		for (var i = 0; i < body.length; i++) {
-			var bodyValue = '#' + body[i];
-			removeBackground(bodyValue);
-			$(bodyValue).addClass('blackBackground');
-		}
-		renderFood();
-	};
-	var removeBackground = function(dom) {
-		$(dom).removeClass('blackBackground');
-		$(dom).removeClass('whiteBackground');
-		$(dom).removeClass('redBackground');
 	}
 
-	var renderFood = function() {
-		var food = '#' + apple.getPosition();
-		removeBackground(food);
-		$(food).addClass('redBackground');
-	};
-};
+	function turnSnake(newDirection) {
+		snake.turnTo(newDirection);
+		console.log('snake turned to: '+pd(snake.direction()));
+	}
+
+	function pp(p) {
+		return '(' + p.x + ', ' + p.y + ')';
+	}
+
+	function pd(d) {
+		if(d.equals(directions.right))
+			return 'right';
+		if(d.equals(directions.left))
+			return 'left';
+		if(d.equals(directions.down))
+			return 'down';
+		return 'up';
+	}
+
+	loop();
+	setInterval(loop, 6000);
+});
 

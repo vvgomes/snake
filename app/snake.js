@@ -127,7 +127,7 @@ var createSnake = function(point, initialDirection) {
 	}
 
 	function checkForSelfCollision() {
-		$.each(body, function(i, p) {
+		$.each(body.slice(1), function(i, p) {
 			p.equals(head()) &&	snake.die();
 		});
 	}
