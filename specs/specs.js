@@ -86,6 +86,11 @@ describe('surface', function() {
 		expect(surface.availablePoints().length).toBe(7);
 	});
 
+	it('should tell me about a good point', function() {
+		var good = createPoint(0, 1);
+		expect(surface.goodPoint().equals(good)).toBeTruthy();
+	});
+
 });
 
 describe('apple', function() {

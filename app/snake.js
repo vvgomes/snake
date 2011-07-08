@@ -43,9 +43,16 @@ var createSurface = function(size) {
   };
 
 	surface.availablePoints = function() {
-		return points.filter(function(point){
+		return points.filter(function(point) {
       return point.empty();
     });
+	};
+
+	surface.goodPoint = function() {
+		var half = size/2;
+		var goodX = Math.floor(half)-1;
+		var goodY = Math.floor(half);
+		return createPoint(goodX, goodY);
 	};
 
   return surface;
