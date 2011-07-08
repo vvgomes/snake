@@ -101,8 +101,12 @@ var createSnake = function(point, initialDirection) {
 	var position = point;
 	var direction = initialDirection;
 
+	position.use();
+
 	snake.move = function() {
+		position.release();
 		position = direction.next(position);
+		position.use();
 	};
 
 	snake.position = function() {

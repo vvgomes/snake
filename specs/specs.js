@@ -188,6 +188,17 @@ describe('snake', function() {
 		expect(snake.position().equals(next)).toBeTruthy();
 	});
 
+	it('should mark the current position as used after moving', function() {
+		snake.move();
+		expect(snake.position().empty()).toBeFalsy();
+	});
+
+	it('should release the previous position after moving', function() {
+		var previous = snake.position();
+		snake.move();
+		expect(previous.empty()).toBeTruthy();
+	});
+
 	it('should be able to change the direction', function() {
 		snake.turnTo(directions.down);
 		expect(snake.direction().equals(directions.down)).toBeTruthy();
