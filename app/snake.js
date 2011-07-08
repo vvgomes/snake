@@ -101,6 +101,7 @@ var createSnake = function(point, initialDirection) {
 	point.use();
 	var body = [point];
 	var direction = initialDirection;
+	var alive = true;
 
 	function head(newHead) {
 		if(!newHead)
@@ -118,6 +119,12 @@ var createSnake = function(point, initialDirection) {
 		return direction.next(head());
 	}
 
+	function checkForSelfCollision() {
+		$.each(body, function(i, p) {
+			p.equals(head()) &&	snake.die();
+		});
+	}
+
 	snake.position = function() {
 		return head();
 	};
@@ -131,17 +138,26 @@ var createSnake = function(point, initialDirection) {
 	};
 
 	snake.move = function() {
-		head(nextPosition());
+		snake.grow();
 		removeLast();
 	};
 
 	snake.grow = function() {
 		head(nextPosition());
+		checkForSelfCollision();
 	};
 
 	snake.turnTo = function(newDirection) {
 		if(!direction.opposite().equals(newDirection))
 			direction = newDirection;
+	};
+
+	snake.alive = function() {
+		return alive;
+	};
+
+	snake.die = function() {
+		alive = false;
 	};
 
 	return snake;

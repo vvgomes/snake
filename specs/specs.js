@@ -222,5 +222,25 @@ describe('snake', function() {
 		expect(snake.position().empty()).toBeFalsy();
 	});
 
+	it('should be alive by default', function() {
+		expect(snake.alive()).toBeTruthy();
+	});
+
+	it('should be able to kill itself', function() {
+		snake.die();
+		expect(snake.alive()).toBeFalsy();
+	});
+
+	it('should die after hitting itself', function() {
+		snake.grow();
+		snake.turnTo(directions.down);
+		snake.grow();
+		snake.turnTo(directions.left);
+		snake.grow();
+		snake.turnTo(directions.up);
+		snake.grow();
+		expect(snake.alive()).toBeFalsy();
+	});
+
 });
 
