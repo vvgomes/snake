@@ -182,61 +182,23 @@ describe('snake', function() {
 		snake = createSnake(position, directions.right);
 	});
 
-	it('should move based on direction', function() {
+	it('should move based on its direction', function() {
 		var next = createPoint(2, 1);
 		snake.move();
 		expect(snake.position().equals(next)).toBeTruthy();
 	});
 
+	it('should be able to change the direction', function() {
+		snake.turnTo(directions.down);
+		expect(snake.direction().equals(directions.down)).toBeTruthy();
+	});
+
+	it('should not be able to turn to the oposite direction', function() {
+		var current = snake.direction();
+		var opposite = current.opposite();
+		snake.turnTo(opposite);
+		expect(snake.direction().equals(current)).toBeTruthy();
+	});
+
 });
-
-
-/*
-describe('Snake', function() {
-
-	beforeEach(function() {
-		position = {};
-		surface = {};
-		right = {
-			nextPosition: function(p){
-				return position;
-			}
-		};
-	});
-
-	it('should still be alive after move inside the surface', function() {
-		surface.has = function(){ return true; };
-
-		var snake = new Snake(surface, position, right);
-		snake.move();
-		expect(snake.stillAlive()).toBeTruthy();
-	});
-
-  it('should be dead after a move to outside the surface', function() {
-    surface.has = function(){ return false; };
-
-    var snake = new Snake(surface, position, right);
-    snake.move();
-    expect(snake.stillAlive()).toBeFalsy();
-  });
-
-	it('should turn to a valid direction', function() {
-    var up = {};
-    right.isOppositeTo = function(){ return false; };
-
-    var snake = new Snake(surface, position, right);
-    snake.turnTo(up);
-		expect(snake.getDirection()).toEqual(up);
-	});
-
-	it('should not turn to the oposite direction', function() {
-		var left = {};
-		right.isOppositeTo = function(){ return true; };
-
-		var snake = new Snake(surface, position, right);
-		snake.turnTo(left);
-		expect(snake.getDirection()).toEqual(right);
-	});
-});
-*/
 

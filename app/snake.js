@@ -96,9 +96,10 @@ var directions = {
 	up: createDirection(0, -1)
 };
 
-var createSnake = function(point, direction) {
+var createSnake = function(point, initialDirection) {
 	var snake = {};
 	var position = point;
+	var direction = initialDirection;
 
 	snake.move = function() {
 		position = direction.next(position);
@@ -106,6 +107,15 @@ var createSnake = function(point, direction) {
 
 	snake.position = function() {
 		return position;
+	};
+
+	snake.turnTo = function(newDirection) {
+		if(!direction.opposite().equals(newDirection))
+			direction = newDirection;
+	};
+
+	snake.direction = function() {
+		return direction;
 	};
 
 	return snake;
