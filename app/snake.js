@@ -98,19 +98,32 @@ var directions = {
 
 var createSnake = function(point, initialDirection) {
 	var snake = {};
-	var position = point;
 	var direction = initialDirection;
 
-	position.use();
+	point.use();
+	var body = [point];
 
-	snake.move = function() {
-		position.release();
-		position = direction.next(position);
-		position.use();
+	var head = function(newHead) {
+		newHead && (body.unshift(newHead));
+		return body[0];
 	};
 
+	function nextPosition() {
+		return direction.next(head());
+	}
+
+	function removeLast() {
+		body[body.length-1].release();
+		body.pop();
+	}
+
 	snake.position = function() {
-		return position;
+		return head();
+	};
+
+	snake.move = function() {
+		snake.grow();
+		removeLast();
 	};
 
 	snake.turnTo = function(newDirection) {
@@ -122,62 +135,15 @@ var createSnake = function(point, initialDirection) {
 		return direction;
 	};
 
+	snake.size = function() {
+		return body.length;
+	};
+
+	snake.grow = function() {
+		head(nextPosition());
+		head().use();
+	};
+
 	return snake;
 };
-
-/*
-var Snake = function(surface, position, direction) {
-	var surface = surface;
-	var direction = direction;
-	var position = position;
-	var body = [];
-	var alive = true;
-
-	this.move = function() {
-		candidate = direction.nextPosition(position);
-
-		if (surface.has(candidate)) {
-			 moveBody();
-			 position = candidate;
-		 } else {
-		 	die();
-		 }
-	};
-
-	this.turnTo = function(newDirection) {
-		(!direction.isOppositeTo(newDirection)) && (direction = newDirection);
-	};
-
-	this.stillAlive = function() {
-		return alive;
-	};
-
-	this.getDirection = function() {
-		return direction;
-	};
-
-	this.getPosition = function() {
-		return position;
-	};
-	this.getBody = function() {
-		return body;
-	};
-	this.grow = function() {
-		body.push(position);
-	};
-
-	var moveBody = function() {
-		var p = position
-		for (var i = 0; i < body.length; i++) {
-			aux = body[i];
-			body[i] = p;
-			p = aux;
-		}
-	};
-
-	var die = function() {
-		alive = false;
-	};
-};
-*/
 

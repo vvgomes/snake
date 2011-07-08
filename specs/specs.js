@@ -211,5 +211,16 @@ describe('snake', function() {
 		expect(snake.direction().equals(current)).toBeTruthy();
 	});
 
+	it('should have size of one point by default', function() {
+		expect(snake.size()).toBe(1);
+	});
+
+	it('should be able to move growing', function(){
+		snake.grow();
+		expect(snake.size()).toBe(2);
+		expect(snake.position().equals(createPoint(2, 1))).toBeTruthy();
+		expect(snake.position().empty()).toBeFalsy();
+	});
+
 });
 
