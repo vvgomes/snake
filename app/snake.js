@@ -3,7 +3,6 @@ var createPoint = function(x, y) {
 
   point.x = x;
   point.y = y;
-
 	var empty = true;
 
   point.equals = function(other) {
@@ -71,15 +70,15 @@ var createApple = function(point) {
 var createDirection = function(factorX, factorY) {
 	var direction = {};
 
-	direction.next = function(point) {
-		return point.translate(factorX, factorY);
-	};
-
 	direction.factorX = factorX;
 	direction.factorY = factorY;
 
 	direction.equals = function(other) {
 		return other.factorX === factorX && other.factorY === factorY;
+	};
+
+	direction.next = function(point) {
+		return point.translate(factorX, factorY);
 	};
 
 	direction.opposite = function() {
@@ -98,37 +97,29 @@ var directions = {
 
 var createSnake = function(point, initialDirection) {
 	var snake = {};
-	var direction = initialDirection;
 
 	point.use();
 	var body = [point];
+	var direction = initialDirection;
 
-	var head = function(newHead) {
-		newHead && (body.unshift(newHead));
-		return body[0];
+	function head(newHead) {
+		if(!newHead)
+			return body[0];
+		body.unshift(newHead);
+		body[0].use();
 	};
-
-	function nextPosition() {
-		return direction.next(head());
-	}
 
 	function removeLast() {
 		body[body.length-1].release();
 		body.pop();
 	}
 
+	function nextPosition() {
+		return direction.next(head());
+	}
+
 	snake.position = function() {
 		return head();
-	};
-
-	snake.move = function() {
-		snake.grow();
-		removeLast();
-	};
-
-	snake.turnTo = function(newDirection) {
-		if(!direction.opposite().equals(newDirection))
-			direction = newDirection;
 	};
 
 	snake.direction = function() {
@@ -139,9 +130,18 @@ var createSnake = function(point, initialDirection) {
 		return body.length;
 	};
 
+	snake.move = function() {
+		head(nextPosition());
+		removeLast();
+	};
+
 	snake.grow = function() {
 		head(nextPosition());
-		head().use();
+	};
+
+	snake.turnTo = function(newDirection) {
+		if(!direction.opposite().equals(newDirection))
+			direction = newDirection;
 	};
 
 	return snake;
