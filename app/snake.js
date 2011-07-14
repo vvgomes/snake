@@ -49,10 +49,12 @@ var createSurface = function(size) {
 	};
 
 	surface.goodPoint = function() {
-		var half = size/2;
-		var goodX = Math.floor(half)-1;
-		var goodY = Math.floor(half);
-		return createPoint(goodX, goodY);
+		return function f(x, y, available) {
+			var p = createPoint(x, y);
+			if(available.has(p))
+				return p;
+			return f(x, y+1, available);
+		}(0, 0, surface.availablePoints());
 	};
 
   return surface;
@@ -117,7 +119,7 @@ var createSnake = function(point, initialDirection) {
 		body[0].use();
 	};
 
-	function removeLast() {
+	function removeTail() {
 		body[body.length-1].release();
 		body.pop();
 	}
@@ -146,7 +148,7 @@ var createSnake = function(point, initialDirection) {
 
 	snake.move = function() {
 		snake.grow();
-		removeLast();
+		removeTail();
 	};
 
 	snake.grow = function() {

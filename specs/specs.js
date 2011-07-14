@@ -86,8 +86,15 @@ describe('surface', function() {
 		expect(surface.availablePoints().length).toBe(7);
 	});
 
-	it('should tell me about a good point', function() {
+	it('should the origin as a good point by default', function() {
+		var good = createPoint(0, 0);
+		expect(surface.goodPoint().equals(good)).toBeTruthy();
+	});
+
+	it('should give me a good point considerig the points availability', function() {
 		var good = createPoint(0, 1);
+		var points = surface.availablePoints();
+		points[0].use();
 		expect(surface.goodPoint().equals(good)).toBeTruthy();
 	});
 
@@ -245,6 +252,20 @@ describe('snake', function() {
 		snake.turnTo(directions.up);
 		snake.grow();
 		expect(snake.alive()).toBeFalsy();
+	});
+
+});
+
+describe('game', function(){
+
+	var game;
+
+	beforeEach(function() {
+		game = {};
+	});
+
+	it('should detect snake self colision', function() {
+
 	});
 
 });
