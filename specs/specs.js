@@ -227,7 +227,7 @@ describe('snake', function() {
 		expect(snake.size()).toBe(1);
 	});
 
-	it('should be able to move growing', function(){
+	it('should be able to grow', function(){
 		snake.grow();
 		expect(snake.size()).toBe(2);
 		expect(snake.position().equals(createPoint(2, 1))).toBeTruthy();
@@ -261,11 +261,29 @@ describe('game', function(){
 	var game;
 
 	beforeEach(function() {
-		game = {};
+		game = createGame();
 	});
 
-	it('should detect snake self colision', function() {
+	it('should kill snake after surface colision', function() {
+		var surface = { has: function(){ return true; } };
+		var snake = {
+			position: function(){},
+			die: function(){}
+		};
 
+		spyOn(snake, 'die');
+		game.checkColision(snake, surface);
+    expect(snake.die).toHaveBeenCalled();
+	});
+
+	it('should grow the snake after it eats the apple', function() {
+		var point = { equals: function(){ return true; } };
+		var snake = { position: function(){ return point; }, grow: function(){} };
+		var apple = { position: function(){ return point; } };
+
+		spyOn(snake, 'grow');
+		game.checkFeeding(snake, apple);
+		expect(snake.grow).toHaveBeenCalled();
 	});
 
 });

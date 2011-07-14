@@ -22,31 +22,6 @@ var createGame = function() {
 		newDirection && snake.turnTo(newDirection);
 	}
 
-	var command = 'move';
-
-	// checking events
-
-	function checkColision() {
-		if(!(snake.alive() && surface.has(snake.position()))
-			gameOver();
-	}
-
-	function checkSnakeFeeding() {
-		if(snake.position().equals(apple.position())
-			tellSnakeToGrow();
-	}
-
-	// consequences
-
-	function gameOver() {
-		alert('game over :(');
-		//stop the loop
-	}
-
-	function tellSnakeToGrow() {
-		command = 'grow';
-	};
-
 	game.start = function() {
 		setup();
 		startGameLoop();

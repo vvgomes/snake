@@ -119,7 +119,7 @@ var createSnake = function(point, initialDirection) {
 		body[0].use();
 	};
 
-	function removeTail() {
+	function cutTail() {
 		body[body.length-1].release();
 		body.pop();
 	}
@@ -148,7 +148,7 @@ var createSnake = function(point, initialDirection) {
 
 	snake.move = function() {
 		snake.grow();
-		removeTail();
+		cutTail();
 	};
 
 	snake.grow = function() {
@@ -170,5 +170,19 @@ var createSnake = function(point, initialDirection) {
 	};
 
 	return snake;
+};
+
+var createGame = function() {
+	var game = {};
+
+	game.checkColision = function(snake, surface) {
+		surface.has(snake.position()) && snake.die();
+	};
+
+	game.checkFeeding = function(snake, apple) {
+		snake.position().equals(apple.position()) && snake.grow();
+	};
+
+	return game;
 };
 
