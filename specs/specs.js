@@ -256,35 +256,3 @@ describe('snake', function() {
 
 });
 
-describe('game', function(){
-
-	var game;
-
-	beforeEach(function() {
-		game = createGame();
-	});
-
-	it('should kill snake after surface colision', function() {
-		var surface = { has: function(){ return true; } };
-		var snake = {
-			position: function(){},
-			die: function(){}
-		};
-
-		spyOn(snake, 'die');
-		game.checkColision(snake, surface);
-    expect(snake.die).toHaveBeenCalled();
-	});
-
-	it('should grow the snake after it eats the apple', function() {
-		var point = { equals: function(){ return true; } };
-		var snake = { position: function(){ return point; }, grow: function(){} };
-		var apple = { position: function(){ return point; } };
-
-		spyOn(snake, 'grow');
-		game.checkFeeding(snake, apple);
-		expect(snake.grow).toHaveBeenCalled();
-	});
-
-});
-

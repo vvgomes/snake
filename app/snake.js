@@ -174,14 +174,76 @@ var createSnake = function(point, initialDirection) {
 
 var createGame = function() {
 	var game = {};
+	var surface;
+	var apple;
+	var snake;
 
-	game.checkColision = function(snake, surface) {
-		surface.has(snake.position()) && snake.die();
+	game.start = function() {
+		surface = createSurface(10);
+		placeApple();
+		placeSnake();
+		setupEvents();
+		loop();
 	};
 
-	game.checkFeeding = function(snake, apple) {
-		snake.position().equals(apple.position()) && snake.grow();
-	};
+	function placeApple() {
+		var position = surface.availablePoints().random();
+		apple = createApple(position);
+	}
+
+	function placeSnake() {
+		var position = surface.goodPoint();
+		snake = createSnake(position);
+	}
+
+	function setupEvents() {
+		var keys = {
+			'37': directions.left,
+			'38': directions.up,
+			'39': directions.right,
+			'40': directions.down
+		};
+		document.onkeydown = function(event) {
+			var newDirection = keys[e.keyCode];
+			newDirection && snake.turnTo(newDirection);
+		};
+	}
+
+	function loop() {
+		action();
+		render();
+	}
+
+	function action() {
+		if(!snake.alive() || colision())
+			gameOver();
+		else
+			if(snakeAteApple())
+				snake.grow();
+			else
+				snake.move();
+	}
+
+	function collision() {
+		return surface.has(snake.position());
+	}
+
+	function snakeAteApple() {
+		return snake.position().equals(apple.position());
+	}
+
+	function gameOver() {
+		alert('GAME OVER');
+	}
+
+	function render() {
+		function print(n, o) {
+			var p = o.position();
+			console.log(n+' at: ('+p.x+', '+p.y+')');
+		}
+		print('snake', snake);
+		print('apple', apple);
+	}
 
 	return game;
 };
