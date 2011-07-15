@@ -4,12 +4,14 @@ var createGame = function() {
 	var apple;
 	var snake;
 
+	var interval;
+
 	game.start = function() {
 		surface = createSurface(10);
 		placeApple();
 		placeSnake();
 		setupEvents();
-		setInterval(loop, 5000);
+		interval = setInterval(loop, 5000);
 	};
 
 	function placeApple() {
@@ -67,7 +69,7 @@ var createGame = function() {
 	}
 
 	function gameOver() {
-		loop = function(){};
+		clearInterval(interval);
 		alert('GAME OVER');
 	}
 
