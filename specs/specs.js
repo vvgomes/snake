@@ -256,3 +256,35 @@ describe('snake', function() {
 
 });
 
+describe('inputHandler', function() {
+
+	var game;
+
+	beforeEach(function() {
+		game = { turnSnake: function(){} };
+	});
+
+	it('should detect keyboard right arrow pressed', function() {
+		spyOn(game, 'turnSnake');
+
+		var event = { keyCode: '39' };
+		var handler = createInputHandler(game.turnSnake);
+		handler.handle(event);
+
+		expect(game.turnSnake).toHaveBeenCalledWith(directions.right);
+	});
+
+	it('should detect keyboard left arrow pressed', function() {
+		spyOn(game, 'turnSnake');
+
+		var event = { keyCode: '37' };
+		var handler = createInputHandler(game.turnSnake);
+		handler.handle(event);
+
+		expect(game.turnSnake).toHaveBeenCalledWith(directions.left);
+	});
+
+
+
+});
+

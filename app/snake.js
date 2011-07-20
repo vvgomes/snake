@@ -49,12 +49,14 @@ var createSurface = function(size) {
 	};
 
 	surface.goodPoint = function() {
-		return function f(x, y, available) {
-			var p = createPoint(x, y);
-			if(available.has(p))
-				return p;
-			return f(x, y+1, available);
-		}(0, 0, surface.availablePoints());
+		return function f(point, available) {
+			return available.has(point) ?
+				point : f(point.translate(0, 1), available);
+		}(createPoint(0, 0), surface.availablePoints());
+	};
+
+	surface.points = function() {
+		return points;
 	};
 
   return surface;
@@ -170,5 +172,23 @@ var createSnake = function(point, initialDirection) {
 	};
 
 	return snake;
+};
+
+var createInputHandler = function(callback) {
+	var handler = {};
+
+	var keys = {
+		'37': directions.left,
+		'38': directions.up,
+		'39': directions.right,
+		'40': directions.down
+	};
+
+	handler.handle = function(event) {
+		var direction = keys[event.keyCode];
+		direction && callback(direction);
+	};
+
+	return handler;
 };
 
