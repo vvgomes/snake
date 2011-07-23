@@ -30,21 +30,6 @@ describe('point', function () {
     expect(translated.equals(createPoint(2, 2))).toBeTruthy();
   });
 
-	it('should be empty by default', function() {
-		expect(point.empty()).toBeTruthy();
-	});
-
-	it('should not be empty after set as used', function() {
-		point.use();
-		expect(point.empty()).toBeFalsy();
-	});
-
-	it('should be empty againg after released', function() {
-		point.use();
-		point.release();
-		expect(point.empty()).toBeTruthy();
-	});
-
 });
 
 describe('surface', function() {
@@ -75,27 +60,16 @@ describe('surface', function() {
     expect(surface.has(outside)).toBeFalsy();
   });
 
-	it('should have all the points available by default', function() {
-		expect(surface.availablePoints().length).toBe(9);
+	it('should be able to place a snake on it', function() {
+		var snake = {};
+		surface.placeSnake(snake);
+		expect(surface.snake()).toBe(snake);
 	});
 
-	it('should be able to figure out which points are available', function() {
-		var points = surface.availablePoints();
-		points[0].use();
-		points[1].use();
-		expect(surface.availablePoints().length).toBe(7);
-	});
-
-	it('should the origin as a good point by default', function() {
-		var good = createPoint(0, 0);
-		expect(surface.goodPoint().equals(good)).toBeTruthy();
-	});
-
-	it('should give me a good point considerig the points availability', function() {
-		var good = createPoint(0, 1);
-		var points = surface.availablePoints();
-		points[0].use();
-		expect(surface.goodPoint().equals(good)).toBeTruthy();
+	it('should be able to place an apple on it', function() {
+		var apple = {};
+		surface.placeApple(apple);
+		expect(surface.apple()).toBe(apple);
 	});
 
 });
@@ -112,15 +86,6 @@ describe('apple', function() {
 	it('should tell me about its position', function() {
 		var expected = createPoint(1, 2);
 		expect(apple.position().equals(expected)).toBeTruthy();
-	});
-
-	it('should mark its position as used point', function() {
-		expect(apple.position().empty()).toBeFalsy();
-	});
-
-	it('should release the point after destroied', function() {
-		apple.destroy();
-		expect(apple.position().empty()).toBeTruthy();
 	});
 
 });
@@ -200,17 +165,6 @@ describe('snake', function() {
 		expect(snake.position().equals(next)).toBeTruthy();
 	});
 
-	it('should mark the current position as used after moving', function() {
-		snake.move();
-		expect(snake.position().empty()).toBeFalsy();
-	});
-
-	it('should release the previous position after moving', function() {
-		var previous = snake.position();
-		snake.move();
-		expect(previous.empty()).toBeTruthy();
-	});
-
 	it('should be able to change the direction', function() {
 		snake.turnTo(directions.down);
 		expect(snake.direction().equals(directions.down)).toBeTruthy();
@@ -224,14 +178,13 @@ describe('snake', function() {
 	});
 
 	it('should have size of one point by default', function() {
-		expect(snake.size()).toBe(1);
+		expect(snake.body().length).toBe(1);
 	});
 
 	it('should be able to grow', function(){
 		snake.grow();
-		expect(snake.size()).toBe(2);
+		expect(snake.body().length).toBe(2);
 		expect(snake.position().equals(createPoint(2, 1))).toBeTruthy();
-		expect(snake.position().empty()).toBeFalsy();
 	});
 
 	it('should be alive by default', function() {
@@ -266,16 +219,23 @@ describe('snake', function() {
 describe('radar', function() {
 
 	var radar;
+	var surface;
 
 	beforeEach(function() {
-		var surface = createSurface(3);
+		var apple = createApple(createPoint(1, 0));
 		var snake = createSnake(createPoint(0, 0), directions.right);
-		var apple = createApple(createPoint(1, 1));
-		radar = createRadar(surface, snake, apple);
+		surface = createSurface(3);
+		surface.placeApple(apple);
+		surface.placeSnake(snake);
+		radar = createRadar(surface);
 	});
 
-	it('should figure the surface available points', function() {
-		expect(radar.availablePoints().length).toBe(7);
+	it('should give me a random available point', function() {
+		var applePoint = surface.apple().position();
+		var snakePoint = surface.snake().position();
+		var rand = radar.randomPoint();
+		expect(rand.equals(applePoint)).toBeFalsy();
+		expect(rand.equals(snakePoint)).toBeFalsy();
 	});
 
 	it('should give me a good point in the surface', function() {
@@ -283,34 +243,48 @@ describe('radar', function() {
 		expect(radar.goodPoint().equals(good)).toBeTruthy();
 	});
 
+	it('should detect when snake get out of the surface area', function() {
+		expect(radar.snakeOutOfBounds()).toBeFalsy();
+		(3).times(function(i) {
+			surface.snake().move();
+		});
+		expect(radar.snakeOutOfBounds()).toBeTruthy();
+	});
+
+	it('should detect when the snake eats the apple', function() {
+		expect(radar.snakeEatenApple()).toBeFalsy();
+		surface.snake().move();
+		expect(radar.snakeEatenApple()).toBeTruthy();
+	});
+
 });
 
 describe('inputHandler', function() {
 
-	var game;
+	var snake;
 
 	beforeEach(function() {
-		game = { turnSnake: function(){} };
+		snake = { turnTo: function(){} };
 	});
 
 	it('should detect keyboard right arrow pressed', function() {
-		spyOn(game, 'turnSnake');
+		spyOn(snake, 'turnTo');
 
 		var event = { keyCode: '39' };
-		var handler = createInputHandler(game.turnSnake);
+		var handler = createInputHandler(snake.turnTo);
 		handler.handle(event);
 
-		expect(game.turnSnake).toHaveBeenCalledWith(directions.right);
+		expect(snake.turnTo).toHaveBeenCalledWith(directions.right);
 	});
 
 	it('should detect keyboard left arrow pressed', function() {
-		spyOn(game, 'turnSnake');
+		spyOn(snake, 'turnTo');
 
 		var event = { keyCode: '37' };
-		var handler = createInputHandler(game.turnSnake);
+		var handler = createInputHandler(snake.turnTo);
 		handler.handle(event);
 
-		expect(game.turnSnake).toHaveBeenCalledWith(directions.left);
+		expect(snake.turnTo).toHaveBeenCalledWith(directions.left);
 	});
 
 });

@@ -3,28 +3,33 @@ var createGame = function() {
 	var surface;
 	var apple;
 	var snake;
-
+	var radar;
 	var interval;
 
 	game.start = function() {
 		surface = createSurface(10);
+		radar = createRadar(surface);
+
 		placeApple();
 		placeSnake();
 		setupEvents();
+
 		interval = setInterval(loop, 5000);
 	};
 
 	function placeApple() {
-		var position = surface.availablePoints().random();
+		var position = radar.randomPoint();
 		apple = createApple(position);
+		surface.placeApple(apple);
 	}
 
 	function placeSnake() {
-		var position = surface.goodPoint();
+		var position = radar.goodPoint();
 		snake = createSnake(position, directions.right);
+		surface.placeSnake(snake);
 	}
 
-	function setupEvent() {
+	function setupEvents() {
 		var handler = createInputHandler(snake.turnTo);
 		document.onkeydown = handler.handle;
 	}
@@ -35,34 +40,12 @@ var createGame = function() {
 	}
 
 	function action() {
-		if(!snake.alive() || collision()) {
-			console.log('snake is dead :(');
-			gameOver();
-		}
-		else {
-			if(snakeAteApple()) {
-				console.log('snake ate the apple');
-				snake.grow();
-				placeApple();
-			}
-			else {
-				console.log('snake will move');
-				snake.move();
-			}
-		}
-	}
 
-	function collision() {
-		return !surface.has(snake.position());
-	}
-
-	function snakeAteApple() {
-		return snake.position().equals(apple.position());
 	}
 
 	function gameOver() {
 		clearInterval(interval);
-		alert('GAME OVER');
+		console.log('snake is dead :(');
 	}
 
 	function render() {

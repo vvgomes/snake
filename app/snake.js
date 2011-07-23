@@ -3,7 +3,6 @@ var createPoint = function(x, y) {
 
   point.x = x;
   point.y = y;
-	var empty = true;
 
   point.equals = function(other) {
     return other.x === x && other.y === y;
@@ -13,26 +12,16 @@ var createPoint = function(x, y) {
     return createPoint(x + factorX, y + factorY);
   };
 
-	point.empty = function() {
-		return empty;
-	};
-
-	point.use = function() {
-		empty = false;
-	};
-
-	point.release = function() {
-		empty = true;
-	};
-
   return point;
 };
 
 var createSurface = function(size) {
   var surface = {};
-
+	var snake;
+	var apple;
   var points = [];
-  size.times(function(x) {
+
+	size.times(function(x) {
     size.times(function(y) {
       points.push(createPoint(x, y));
     });
@@ -42,21 +31,24 @@ var createSurface = function(size) {
     return points.has(point);
   };
 
-	surface.availablePoints = function() {
-		return points.filter(function(point) {
-      return point.empty();
-    });
-	};
-
-	surface.goodPoint = function() {
-		return function f(point, available) {
-			return available.has(point) ?
-				point : f(point.translate(0, 1), available);
-		}(createPoint(0, 0), surface.availablePoints());
-	};
-
 	surface.points = function() {
 		return points;
+	};
+
+	surface.placeSnake = function(s)	{
+		snake = s;
+	};
+
+	surface.placeApple = function(a) {
+		apple = a;
+	};
+
+	surface.snake = function() {
+		return snake;
+	};
+
+	surface.apple = function() {
+		return apple;
 	};
 
   return surface;
@@ -65,14 +57,8 @@ var createSurface = function(size) {
 var createApple = function(point) {
 	var apple = {};
 
-	point.use();
-
 	apple.position = function() {
 		return point;
-	};
-
-	apple.destroy = function() {
-		point.release();
 	};
 
 	return apple;
@@ -108,8 +94,6 @@ var directions = {
 
 var createSnake = function(point, initialDirection) {
 	var snake = {};
-
-	point.use();
 	var body = [point];
 	var direction = initialDirection;
 	var alive = true;
@@ -118,11 +102,9 @@ var createSnake = function(point, initialDirection) {
 		if(!newHead)
 			return body[0];
 		body.unshift(newHead);
-		body[0].use();
 	};
 
 	function cutTail() {
-		body[body.length-1].release();
 		body.pop();
 	}
 
@@ -142,10 +124,6 @@ var createSnake = function(point, initialDirection) {
 
 	snake.direction = function() {
 		return direction;
-	};
-
-	snake.size = function() {
-		return body.length;
 	};
 
 	snake.move = function() {
@@ -178,18 +156,41 @@ var createSnake = function(point, initialDirection) {
 	return snake;
 };
 
-var createRadar = function(surface, snake, apple) {
+var createRadar = function(surface) {
 	var radar = {};
 
-	radar.availablePoints = function() {
-		return surface.points().without(snake.body()).without(apple.position());
+	function snake() {
+		return surface.snake();
+	}
+
+	function apple() {
+		return surface.apple();
+	}
+
+	function availablePoints() {
+		var surfacePoints = surface.points();
+		var snakePoints = snake().body();
+		var applePoints = apple().position();
+		return surfacePoints.without(snakePoints).without(applePoints);
+	}
+
+	radar.randomPoint = function() {
+		return availablePoints().random();
 	};
 
 	radar.goodPoint = function() {
 		return function f(point, available) {
 			return available.has(point) ?
 				point : f(point.translate(0, 1), available);
-		}(createPoint(0, 0), radar.availablePoints());
+		}(createPoint(0, 0), availablePoints());
+	};
+
+	radar.snakeOutOfBounds = function() {
+		return !surface.has(snake().position());
+	};
+
+	radar.snakeEatenApple = function() {
+		return snake().position().equals(apple().position());
 	};
 
 	return radar;
