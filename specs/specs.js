@@ -265,26 +265,35 @@ describe('inputHandler', function() {
 
 	beforeEach(function() {
 		snake = { turnTo: function(){} };
+		spyOn(snake, 'turnTo');
 	});
 
 	it('should detect keyboard right arrow pressed', function() {
-		spyOn(snake, 'turnTo');
-
 		var event = { keyCode: '39' };
 		var handler = createInputHandler(snake.turnTo);
 		handler.handle(event);
-
 		expect(snake.turnTo).toHaveBeenCalledWith(directions.right);
 	});
 
 	it('should detect keyboard left arrow pressed', function() {
-		spyOn(snake, 'turnTo');
-
 		var event = { keyCode: '37' };
 		var handler = createInputHandler(snake.turnTo);
 		handler.handle(event);
-
 		expect(snake.turnTo).toHaveBeenCalledWith(directions.left);
+	});
+
+	it('should detect keyboard up arrow pressed', function() {
+		var event = { keyCode: '38' };
+		var handler = createInputHandler(snake.turnTo);
+		handler.handle(event);
+		expect(snake.turnTo).toHaveBeenCalledWith(directions.up);
+	});
+
+	it('should detect keyboard down arrow pressed', function() {
+		var event = { keyCode: '40' };
+		var handler = createInputHandler(snake.turnTo);
+		handler.handle(event);
+		expect(snake.turnTo).toHaveBeenCalledWith(directions.down);
 	});
 
 });
