@@ -39,8 +39,22 @@ var createGame = function() {
 		action();
 	}
 
+	//lifecicle
+	var command = 'move';
 	function action() {
+		snake[command](); // or grow
 
+		if(!snake.alive() || radar.snakeOutOfBounds()) {
+			gameOver();
+			return;
+		}
+
+		if(radar.snakeEatenApple()) {
+			command = 'grow';
+			return;
+		}
+
+		command = 'move';
 	}
 
 	function gameOver() {
@@ -64,4 +78,5 @@ $(document).ready(function() {
 	var game = createGame();
 	game.start();
 });
+//TODO: points
 
