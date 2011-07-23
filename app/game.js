@@ -24,17 +24,9 @@ var createGame = function() {
 		snake = createSnake(position, directions.right);
 	}
 
-	function setupEvents() {
-		var keys = {
-			'37': directions.left,
-			'38': directions.up,
-			'39': directions.right,
-			'40': directions.down
-		};
-		document.onkeydown = function(event) {
-			var newDirection = keys[event.keyCode];
-			newDirection && snake.turnTo(newDirection);
-		};
+	function setupEvent() {
+		var handler = createInputHandler(snake.turnTo);
+		document.onkeydown = handler.handle;
 	}
 
 	function loop() {

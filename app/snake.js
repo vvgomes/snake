@@ -171,7 +171,28 @@ var createSnake = function(point, initialDirection) {
 		alive = false;
 	};
 
+	snake.body = function() {
+		return body;
+	};
+
 	return snake;
+};
+
+var createRadar = function(surface, snake, apple) {
+	var radar = {};
+
+	radar.availablePoints = function() {
+		return surface.points().without(snake.body()).without(apple.position());
+	};
+
+	radar.goodPoint = function() {
+		return function f(point, available) {
+			return available.has(point) ?
+				point : f(point.translate(0, 1), available);
+		}(createPoint(0, 0), radar.availablePoints());
+	};
+
+	return radar;
 };
 
 var createInputHandler = function(callback) {

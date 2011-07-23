@@ -254,6 +254,35 @@ describe('snake', function() {
 		expect(snake.alive()).toBeFalsy();
 	});
 
+	it('should let me know about its body points', function() {
+		var body = snake.body();
+		var position = createPoint(1, 1);
+		expect(body.length).toBe(1);
+		expect(body[0].equals(position)).toBeTruthy();
+	});
+
+});
+
+describe('radar', function() {
+
+	var radar;
+
+	beforeEach(function() {
+		var surface = createSurface(3);
+		var snake = createSnake(createPoint(0, 0), directions.right);
+		var apple = createApple(createPoint(1, 1));
+		radar = createRadar(surface, snake, apple);
+	});
+
+	it('should figure the surface available points', function() {
+		expect(radar.availablePoints().length).toBe(7);
+	});
+
+	it('should give me a good point in the surface', function() {
+		var good = createPoint(0, 1);
+		expect(radar.goodPoint().equals(good)).toBeTruthy();
+	});
+
 });
 
 describe('inputHandler', function() {
@@ -283,8 +312,6 @@ describe('inputHandler', function() {
 
 		expect(game.turnSnake).toHaveBeenCalledWith(directions.left);
 	});
-
-
 
 });
 
