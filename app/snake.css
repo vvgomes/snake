@@ -1,18 +1,27 @@
-table, td {
-	border-color: black;
-	border-style: solid;
+body {
+	font-family: sans-serif;
 }
 
-table {
-	border-width: 0 0 1px 1px;
+h1 {
+	font-size: medium;
+}
+
+p {
+	font-size: small;
+}
+
+#surface {
+	border-width : 1px 1px 1px 1px;
+	border-color: black;
+	border-style: solid;
 	border-spacing: 0;
 	border-collapse: collapse;
 }
 
-td {
+#surface td {
 	margin: 0;
 	padding: 4px;
-	border-width: 1px 1px 0 0;
+	border :none;
 }
 
 .whiteBackground{

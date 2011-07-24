@@ -35,11 +35,6 @@ var createGame = function() {
 	}
 
 	function initView() {
-		$('body').css('font-family', 'sans-serif').append(
-			$('<h1 />').css('font-size', 'medium').text('The Hungry Snake'),
-			$('<table />').attr('id', 'surface').css('border-width', '1px 1px 1px 1px'),
-			$('<p />').attr('id', 'apples').css('font-size', 'small').text('Apples: '+apples)
-		);
 		var size = surface.size();
 		size.times(function(lines) {
 			var tr = $('<tr />');
@@ -48,7 +43,6 @@ var createGame = function() {
 			});
 			$('#surface').append(tr);
 		});
-		$('#surface td').css('border', 'none');
 	}
 
 	function setupEvents() {
@@ -105,7 +99,17 @@ var createGame = function() {
 };
 
 $(document).ready(function() {
+	$('body').append(
+		$('<h1 />').text('The Hungry Snake'),
+		$('<table />').attr('id', 'surface'),
+		$('<p />').attr('id', 'apples').text('Apples: 0')
+	);
+
 	var game = createGame();
 	game.start();
 });
+// TODO:
+// span for the score
+// css classes for bg colors
+// html for title, table, and score
 
