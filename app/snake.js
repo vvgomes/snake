@@ -159,19 +159,12 @@ var createSnake = function(point, initialDirection) {
 var createRadar = function(surface) {
 	var radar = {};
 
-	function snake() {
-		return surface.snake();
-	}
-
-	function apple() {
-		return surface.apple();
-	}
-
 	function availablePoints() {
-		var surfacePoints = surface.points();
-		var snakePoints = snake().body();
-		var applePoints = apple().position();
-		return surfacePoints.without(snakePoints).without(applePoints);
+		var snake = surface.snake();
+		var apple = surface.apple();
+		var used = snake ? snake.body() : [];
+		apple && (used = used.concat(apple.position()));
+		return surface.points().without(used);
 	}
 
 	radar.randomPoint = function() {
@@ -186,11 +179,14 @@ var createRadar = function(surface) {
 	};
 
 	radar.snakeOutOfBounds = function() {
-		return !surface.has(snake().position());
+		var snake = surface.snake();
+		return !surface.has(snake.position());
 	};
 
 	radar.snakeEatenApple = function() {
-		return snake().position().equals(apple().position());
+		var snake = surface.snake();
+		var apple = surface.apple();
+		return snake.position().equals(apple.position());
 	};
 
 	return radar;
