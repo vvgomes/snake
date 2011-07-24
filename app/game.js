@@ -37,7 +37,7 @@ var createGame = function() {
 	function initView() {
 		$('body').css('font-family', 'sans-serif').append(
 			$('<h1 />').css('font-size', 'medium').text('The Hungry Snake'),
-			$('<table />').attr('id', 'surface'),
+			$('<table />').attr('id', 'surface').css('border-width', '1px 1px 1px 1px'),
 			$('<p />').attr('id', 'apples').css('font-size', 'small').text('Apples: '+apples)
 		);
 		var points = surface.points();
@@ -52,6 +52,7 @@ var createGame = function() {
 			});
 			$('#surface').append(tr);
 		});
+		$('#surface td').css('border', 'none');
 	}
 
 	function setupEvents() {
@@ -68,7 +69,6 @@ var createGame = function() {
 
 	function action() {
 		snake[command]();
-		console.log(command);
 
 		if(!snake.alive() || radar.snakeOutOfBounds()) {
 			gameOver();
