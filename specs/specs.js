@@ -72,6 +72,10 @@ describe('surface', function() {
 		expect(surface.apple()).toBe(apple);
 	});
 
+	it('should give me its square size', function() {
+		expect(surface.size()).toBe(3);
+	});
+
 });
 
 describe('apple', function() {
