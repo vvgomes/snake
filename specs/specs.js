@@ -249,7 +249,7 @@ describe('radar', function() {
 
 	it('should detect when snake get out of the surface area', function() {
 		expect(radar.snakeOutOfBounds()).toBeFalsy();
-		(3).times(function(i) {
+		(3).times(function() {
 			surface.snake().move();
 		});
 		expect(radar.snakeOutOfBounds()).toBeTruthy();
@@ -298,6 +298,13 @@ describe('inputHandler', function() {
 		var handler = createInputHandler(snake.turnTo);
 		handler.handle(event);
 		expect(snake.turnTo).toHaveBeenCalledWith(directions.down);
+	});
+
+	it('should ignore other keyboard keys', function() {
+		var event = { keyCode: '41' };
+		var handler = createInputHandler(snake.turnTo);
+		handler.handle(event);
+		expect(snake.turnTo).not.toHaveBeenCalled();
 	});
 
 });
