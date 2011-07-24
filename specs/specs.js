@@ -213,9 +213,9 @@ describe('snake', function() {
 
 	it('should let me know about its body points', function() {
 		var body = snake.body();
-		var position = createPoint(1, 1);
+		var head = createPoint(1, 1);
 		expect(body.length).toBe(1);
-		expect(body[0].equals(position)).toBeTruthy();
+		expect(body[0].equals(head)).toBeTruthy();
 	});
 
 });
