@@ -5,6 +5,7 @@ var createGame = function() {
 	var snake;
 	var radar;
 	var interval;
+	var apples;
 
 	game.start = function() {
 		surface = createSurface(20);
@@ -15,6 +16,8 @@ var createGame = function() {
 		setupEvents();
 
 		initView();
+
+		apples = 0;
 
 		interval = setInterval(loop, 100);
 	};
@@ -32,12 +35,13 @@ var createGame = function() {
 	}
 
 	function initView() {
-		var table = $('<table />').attr('id', 'surface');
-		$('body').append(table);
-
+		$('body').css('font-family', 'sans-serif').append(
+			$('<h1 />').css('font-size', 'medium').text('The Hungry Snake'),
+			$('<table />').attr('id', 'surface'),
+			$('<p />').attr('id', 'apples').css('font-size', 'small').text('Apples: '+apples)
+		);
 		var points = surface.points();
 		var size = surface.size();
-
 		size.times(function(lines) {
 			var tr = $('<tr />');
 			size.times(function(cells) {
@@ -46,7 +50,6 @@ var createGame = function() {
 				var td = $('<td />').attr('id', id);
 			  tr.append(td);
 			});
-
 			$('#surface').append(tr);
 		});
 	}
@@ -64,7 +67,6 @@ var createGame = function() {
 	var command = 'move';
 
 	function action() {
-		console.log('=== action ===');
 		snake[command]();
 		console.log(command);
 
@@ -74,9 +76,9 @@ var createGame = function() {
 		}
 
 		if(radar.snakeEatenApple()) {
-			console.log('### snake ate apple');
 			command = 'grow';
 			placeApple();
+			apples++;
 			return;
 		}
 
@@ -89,14 +91,6 @@ var createGame = function() {
 	}
 
 	function updateView() {
-		console.log('=== updateView ===');
-		function print(n, o) {
-			var p = o.position();
-			console.log(''+n+' at: ('+p.x+', '+p.y+')');
-		}
-		print('snake', snake);
-		print('apple', apple);
-
 		$('#surface td').css('background-color', 'white');
 
 		var id = '#'+ apple.position().x +'_'+ apple.position().y;
@@ -105,6 +99,8 @@ var createGame = function() {
 		$.each(snake.body(), function(i, p) {
 			$('#'+p.x+'_'+p.y).css('background-color', 'green');
 		});
+
+		$('#apples').text('Apples: '+apples);
 	}
 
 	return game;
@@ -114,5 +110,4 @@ $(document).ready(function() {
 	var game = createGame();
 	game.start();
 });
-//TODO: points
 
