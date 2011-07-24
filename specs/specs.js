@@ -102,7 +102,7 @@ describe('direction', function() {
 		right = createDirection(1, 0);
 	});
 
-	it('should give me the next point based on a translation factors', function() {
+	it('should give me the next point based on the translation factors', function() {
 		var current = createPoint(1, 1);
 		var next = createPoint(2, 1);
 		expect(right.next(current).equals(next)).toBeTruthy();
