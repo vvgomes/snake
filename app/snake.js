@@ -21,8 +21,8 @@ var createSurface = function(size) {
 	var apple;
   var points = [];
 
-	size.times(function(y) {
-    size.times(function(x) {
+	size.times(function(x) {
+    size.times(function(y) {
       points.push(createPoint(x, y));
     });
   });

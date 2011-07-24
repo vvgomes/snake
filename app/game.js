@@ -40,15 +40,11 @@ var createGame = function() {
 			$('<table />').attr('id', 'surface').css('border-width', '1px 1px 1px 1px'),
 			$('<p />').attr('id', 'apples').css('font-size', 'small').text('Apples: '+apples)
 		);
-		var points = surface.points();
 		var size = surface.size();
 		size.times(function(lines) {
 			var tr = $('<tr />');
 			size.times(function(cells) {
-				var point = points[lines * size + cells];
-				var id = point.x+'_'+point.y;
-				var td = $('<td />').attr('id', id);
-			  tr.append(td);
+				tr.append($('<td />'));
 			});
 			$('#surface').append(tr);
 		});
@@ -93,11 +89,13 @@ var createGame = function() {
 	function updateView() {
 		$('#surface td').css('background-color', 'white');
 
-		var id = '#'+ apple.position().x +'_'+ apple.position().y;
-		$(id).css('background-color', 'red');
+		var p = apple.position();
+		$('#surface tr:eq('+p.y+') td:eq('+p.x+')')
+			.css('background-color', 'red');
 
 		$.each(snake.body(), function(i, p) {
-			$('#'+p.x+'_'+p.y).css('background-color', 'green');
+			$('#surface tr:eq('+p.y+') td:eq('+p.x+')')
+				.css('background-color', 'green');
 		});
 
 		$('#apples').text('Apples: '+apples);
