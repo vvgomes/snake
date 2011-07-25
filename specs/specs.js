@@ -92,6 +92,10 @@ describe('apple', function() {
 		expect(apple.position().equals(expected)).toBeTruthy();
 	});
 
+	it('should be able to render itself', function() {
+
+	});
+
 });
 
 describe('direction', function() {

@@ -5,14 +5,20 @@ var createGame = function() {
 	var snake;
 	var radar;
 	var score;
+	var nextCommand;
+	var paused;
 	var loop;
 
 	game.start = function() {
-		score = 0;
 		surface = createSurface(20);
 		radar = createRadar(surface);
+
 		placeApple();
 		placeSnake();
+
+		score = 0;
+		nextCommand = 'move';
+
 		initView();
 		resume();
 	};
@@ -40,36 +46,6 @@ var createGame = function() {
 		});
 	}
 
-	function lifeCycle() {
-		updateView();
-		action();
-	}
-
-	var command = 'move';
-
-	function action() {
-		snake[command]();
-
-		if(!snake.alive() || radar.snakeOutOfBounds()) {
-			gameOver();
-			return;
-		}
-
-		if(radar.snakeEatenApple()) {
-			command = 'grow';
-			placeApple();
-			score++;
-			return;
-		}
-
-		command = 'move';
-	}
-
-	function gameOver() {
-		clearInterval(loop);
-		alert('You just killed the poor snake :(');
-	}
-
 	function updateView() {
 		$('#surface td').attr('class', 'emptyPoint');
 
@@ -83,7 +59,38 @@ var createGame = function() {
 		$('#score').text(score);
 	}
 
-	var paused = false;
+	function lifeCycle() {
+		updateView();
+		action();
+	}
+
+	function action() {
+		snake[nextCommand]();
+
+		if(!snake.alive() || radar.snakeOutOfBounds()) {
+			gameOver();
+			return;
+		}
+
+		if(radar.snakeEatenApple()) {
+			nextCommand = 'grow';
+			placeApple();
+			score++;
+			return;
+		}
+
+		nextCommand = 'move';
+	}
+
+	function gameOver() {
+		clearInterval(loop);
+		alert('You just killed the poor snake :(');
+	}
+
+	function resume() {
+		paused = false;
+		loop = setInterval(lifeCycle, 100);
+	}
 
 	game.pause = function() {
 		if(paused) {
@@ -94,10 +101,6 @@ var createGame = function() {
 		clearInterval(loop);
 	};
 
-	function resume() {
-		paused = false;
-		loop = setInterval(lifeCycle, 100);
-	}
 
 	game.turnSnake = function(newDirection) {
 		snake.turnTo(newDirection);
