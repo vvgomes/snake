@@ -84,32 +84,23 @@ var createGame = function() {
 		$('#surface td').css('background-color', 'white');
 
 		var p = apple.position();
-		$('#surface tr:eq('+p.y+') td:eq('+p.x+')')
-			.css('background-color', 'red');
+		$('#surface tr:eq('+p.y+') td:eq('+p.x+')').css('background-color', 'red');
 
 		$.each(snake.body(), function(i, p) {
-			$('#surface tr:eq('+p.y+') td:eq('+p.x+')')
-				.css('background-color', 'green');
+			$('#surface tr:eq('+p.y+') td:eq('+p.x+')').css('background-color', 'green');
 		});
 
-		$('#apples').text('Apples: '+apples);
+		$('#apples').text(apples);
 	}
 
 	return game;
 };
 
 $(document).ready(function() {
-	$('body').append(
-		$('<h1 />').text('The Hungry Snake'),
-		$('<table />').attr('id', 'surface'),
-		$('<p />').attr('id', 'apples').text('Apples: 0')
-	);
-
 	var game = createGame();
 	game.start();
 });
 // TODO:
 // span for the score
 // css classes for bg colors
-// html for title, table, and score
 
