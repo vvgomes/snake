@@ -1,0 +1,38 @@
+body {
+	font-family: sans-serif;
+}
+
+h1 {
+	font-size: medium;
+}
+
+p {
+	font-size: small;
+}
+
+#surface {
+	border-width : 1px 1px 1px 1px;
+	border-color: black;
+	border-style: solid;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+#surface td {
+	margin: 0;
+	padding: 4px;
+	border :none;
+}
+
+.emptyPoint {
+	background-color: white;
+}
+
+.snakeBody {
+	background-color: green;
+}
+
+.apple {
+	background-color: red;
+}
+
