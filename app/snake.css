@@ -24,15 +24,15 @@ p {
 	border :none;
 }
 
-.whiteBackground{
-	background: white;
+.emptyPoint {
+	background-color: white;
 }
 
-.blackBackground{
-	background: black;
+.snakeBody {
+	background-color: green;
 }
 
-.redBackground{
-	background: red;
+.apple {
+	background-color: red;
 }
 

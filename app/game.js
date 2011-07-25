@@ -81,13 +81,13 @@ var createGame = function() {
 	}
 
 	function updateView() {
-		$('#surface td').css('background-color', 'white');
+		$('#surface td').attr('class', 'emptyPoint');
 
 		var p = apple.position();
-		$('#surface tr:eq('+p.y+') td:eq('+p.x+')').css('background-color', 'red');
+		$('#surface tr:eq('+p.y+') td:eq('+p.x+')').attr('class', 'apple');
 
 		$.each(snake.body(), function(i, p) {
-			$('#surface tr:eq('+p.y+') td:eq('+p.x+')').css('background-color', 'green');
+			$('#surface tr:eq('+p.y+') td:eq('+p.x+')').attr('class', 'snakeBody');
 		});
 
 		$('#apples').text(apples);
@@ -100,7 +100,4 @@ $(document).ready(function() {
 	var game = createGame();
 	game.start();
 });
-// TODO:
-// span for the score
-// css classes for bg colors
 
