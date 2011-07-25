@@ -3,15 +3,15 @@ body {
 }
 
 h1 {
-	font-size: medium;
+	font-size: 14pt;
 }
 
 p {
-	font-size: small;
+	font-size: 14pt;
 }
 
 #surface {
-	border-width : 1px 1px 1px 1px;
+	border-width : 2px 2px 2px 2px;
 	border-color: black;
 	border-style: solid;
 	border-spacing: 0;
@@ -20,7 +20,7 @@ p {
 
 #surface td {
 	margin: 0;
-	padding: 4px;
+	padding: 10px;
 	border :none;
 }
 
