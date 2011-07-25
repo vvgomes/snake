@@ -83,17 +83,23 @@ describe('apple', function() {
 	var apple;
 
   beforeEach(function() {
-		var point = createPoint(1, 2);
+		var point = createPoint(0, 0);
     apple = createApple(point);
   });
 
 	it('should tell me about its position', function() {
-		var expected = createPoint(1, 2);
+		var expected = createPoint(0, 0);
 		expect(apple.position().equals(expected)).toBeTruthy();
 	});
 
-	it('should be able to render itself', function() {
 
+	it('should be able to render itself', function() {
+		$('body').append($('<table id="surface"><tr><td /></tr></table>').hide());
+
+		apple.render();
+		expect($('#surface td').attr('class')).toBe('apple');
+
+		$('#surface').remove();
 	});
 
 });
@@ -220,6 +226,16 @@ describe('snake', function() {
 		var head = createPoint(1, 1);
 		expect(body.length).toBe(1);
 		expect(body[0].equals(head)).toBeTruthy();
+	});
+
+	it('should be able to render itself', function() {
+		$('body').append($('<table id="surface"><tr><td /></tr></table>').hide());
+
+		snake = createSnake(createPoint(0, 0), directions.right);
+		snake.render();
+		expect($('#surface td').attr('class')).toBe('snakeBody');
+
+		$('#surface').remove();
 	});
 
 });

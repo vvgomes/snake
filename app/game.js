@@ -48,14 +48,8 @@ var createGame = function() {
 
 	function updateView() {
 		$('#surface td').attr('class', 'emptyPoint');
-
-		var p = apple.position();
-		$('#surface tr:eq('+p.y+') td:eq('+p.x+')').attr('class', 'apple');
-
-		$.each(snake.body(), function(i, p) {
-			$('#surface tr:eq('+p.y+') td:eq('+p.x+')').attr('class', 'snakeBody');
-		});
-
+		apple.render();
+		snake.render();
 		$('#score').text(score);
 	}
 

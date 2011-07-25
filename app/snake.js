@@ -65,6 +65,11 @@ var createApple = function(point) {
 		return point;
 	};
 
+	apple.render = function() {
+		var selector = '#surface tr:eq('+point.y+') td:eq('+point.x+')';
+		$(selector).attr('class', 'apple');
+	};
+
 	return apple;
 };
 
@@ -156,6 +161,13 @@ var createSnake = function(point, initialDirection) {
 
 	snake.body = function() {
 		return body;
+	};
+
+	snake.render = function() {
+		$.each(body, function(i, p) {
+			var selector = '#surface tr:eq('+p.y+') td:eq('+p.x+')';
+			$(selector).attr('class', 'snakeBody');
+		});
 	};
 
 	return snake;
