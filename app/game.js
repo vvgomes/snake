@@ -36,20 +36,12 @@ var createGame = function() {
 	}
 
 	function initView() {
-		var size = surface.size();
-		size.times(function(lines) {
-			var tr = $('<tr />');
-			size.times(function(cells) {
-				tr.append($('<td />'));
-			});
-			$('#surface').append(tr);
-		});
+		surface.appendToDom();
+		surface.render();
 	}
 
 	function updateView() {
-		$('#surface td').attr('class', 'emptyPoint');
-		apple.render();
-		snake.render();
+		surface.render();
 		$('#score').text(score);
 	}
 

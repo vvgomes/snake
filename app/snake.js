@@ -51,8 +51,21 @@ var createSurface = function(size) {
 		return apple;
 	};
 
-	surface.size = function() {
-		return size;
+	surface.appendToDom = function() {
+		size.times(function() {
+			var tr = $('<tr />');
+			size.times(function() {
+				var td = $('<td />');
+				tr.append(td);
+			});
+			$('#surface').append(tr);
+		});
+	};
+
+	surface.render = function() {
+		$('#surface td').attr('class', 'emptyPoint');
+		apple.render();
+		snake.render();
 	};
 
   return surface;

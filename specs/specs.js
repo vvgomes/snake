@@ -72,8 +72,44 @@ describe('surface', function() {
 		expect(surface.apple()).toBe(apple);
 	});
 
-	it('should give me its square size', function() {
-		expect(surface.size()).toBe(3);
+	describe('when rendering', function() {
+
+		beforeEach(function() {
+			var table = $('<table />').attr('id', 'surface');
+			$('body').append(table);
+		});
+
+		afterEach(function() {
+			$('#surface').remove();
+		});
+
+		it('should be able to build itself in dom', function() {
+			var html =
+				'<tbody>'+
+					'<tr><td></td><td></td><td></td></tr>'+
+					'<tr><td></td><td></td><td></td></tr>'+
+					'<tr><td></td><td></td><td></td></tr>'+
+				'</tbody>';
+			surface.appendToDom();
+			expect($('#surface').html()).toBe(html);
+		});
+
+		it('should render  while rendering itself', function() {
+			var apple = { render: function(){} }
+			var snake = { render: function(){} }
+			spyOn(apple, 'render');
+			spyOn(snake, 'render');
+
+			surface.placeApple(apple);
+			surface.placeSnake(snake);
+			surface.appendToDom();
+			surface.render();
+
+			expect($('#surface td').attr('class')).toBe('emptyPoint');
+			expect(apple.render).toHaveBeenCalled();
+			expect(snake.render).toHaveBeenCalled();
+		});
+
 	});
 
 });
