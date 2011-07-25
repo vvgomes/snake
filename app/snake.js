@@ -196,19 +196,20 @@ var createRadar = function(surface) {
 	return radar;
 };
 
-var createInputHandler = function(callback) {
+var createInputHandler = function(game) {
 	var handler = {};
 
 	var keys = {
-		'37': directions.left,
-		'38': directions.up,
-		'39': directions.right,
-		'40': directions.down
+		'37': function(){ game.turnSnake(directions.left); },
+		'38': function(){ game.turnSnake(directions.up); },
+		'39': function(){ game.turnSnake(directions.right); },
+		'40': function(){ game.turnSnake(directions.down); },
+		'80': function(){ game.pause(); }
 	};
 
 	handler.handle = function(event) {
-		var direction = keys[event.keyCode];
-		direction && callback(direction);
+		var callback = keys[event.keyCode];
+		callback && callback();
 	};
 
 	return handler;

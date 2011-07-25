@@ -265,46 +265,63 @@ describe('radar', function() {
 
 describe('inputHandler', function() {
 
-	var snake;
+	var game = {
+		turnSnake: function(){},
+		pause: function(){}
+	};
 
-	beforeEach(function() {
-		snake = { turnTo: function(){} };
-		spyOn(snake, 'turnTo');
+	describe('when the user wants to turn the snake', function() {
+
+		beforeEach(function() {
+			spyOn(game, 'turnSnake');
+		});
+
+		it('should detect keyboard right arrow pressed', function() {
+			var event = { keyCode: '39' };
+			var handler = createInputHandler(game);
+			handler.handle(event);
+			expect(game.turnSnake).toHaveBeenCalledWith(directions.right);
+		});
+
+		it('should detect keyboard left arrow pressed', function() {
+			var event = { keyCode: '37' };
+			var handler = createInputHandler(game);
+			handler.handle(event);
+			expect(game.turnSnake).toHaveBeenCalledWith(directions.left);
+		});
+
+		it('should detect keyboard up arrow pressed', function() {
+			var event = { keyCode: '38' };
+			var handler = createInputHandler(game);
+			handler.handle(event);
+			expect(game.turnSnake).toHaveBeenCalledWith(directions.up);
+		});
+
+		it('should detect keyboard down arrow pressed', function() {
+			var event = { keyCode: '40' };
+			var handler = createInputHandler(game);
+			handler.handle(event);
+			expect(game.turnSnake).toHaveBeenCalledWith(directions.down);
+		});
+
 	});
 
-	it('should detect keyboard right arrow pressed', function() {
-		var event = { keyCode: '39' };
-		var handler = createInputHandler(snake.turnTo);
+	it('should detect when the user wants to pause the game', function() {
+		spyOn(game, 'pause');
+		var event = { keyCode: '80' };
+		var handler = createInputHandler(game);
 		handler.handle(event);
-		expect(snake.turnTo).toHaveBeenCalledWith(directions.right);
+		expect(game.pause).toHaveBeenCalled();
 	});
 
-	it('should detect keyboard left arrow pressed', function() {
-		var event = { keyCode: '37' };
-		var handler = createInputHandler(snake.turnTo);
-		handler.handle(event);
-		expect(snake.turnTo).toHaveBeenCalledWith(directions.left);
-	});
-
-	it('should detect keyboard up arrow pressed', function() {
-		var event = { keyCode: '38' };
-		var handler = createInputHandler(snake.turnTo);
-		handler.handle(event);
-		expect(snake.turnTo).toHaveBeenCalledWith(directions.up);
-	});
-
-	it('should detect keyboard down arrow pressed', function() {
-		var event = { keyCode: '40' };
-		var handler = createInputHandler(snake.turnTo);
-		handler.handle(event);
-		expect(snake.turnTo).toHaveBeenCalledWith(directions.down);
-	});
-
-	it('should ignore other keyboard keys', function() {
+	it('should ignore irrelevant keyboard keys', function() {
+		spyOn(game, 'turnSnake');
+		spyOn(game, 'pause');
 		var event = { keyCode: '41' };
-		var handler = createInputHandler(snake.turnTo);
+		var handler = createInputHandler(game);
 		handler.handle(event);
-		expect(snake.turnTo).not.toHaveBeenCalled();
+		expect(game.turnSnake).not.toHaveBeenCalled();
+		expect(game.pause).not.toHaveBeenCalled();
 	});
 
 });

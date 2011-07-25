@@ -13,13 +13,12 @@ var createGame = function() {
 
 		placeApple();
 		placeSnake();
-		setupEvents();
 
 		initView();
 
 		apples = 0;
 
-		interval = setInterval(loop, 100);
+		resume();
 	};
 
 	function placeApple() {
@@ -45,14 +44,15 @@ var createGame = function() {
 		});
 	}
 
-	function setupEvents() {
-		var handler = createInputHandler(snake.turnTo);
-		document.onkeydown = handler.handle;
-	}
+	var delay = 4;
 
 	function loop() {
-		updateView();
-		action();
+		if(delay === 4) {
+			delay = 0;
+			updateView();
+			action();
+		}
+		delay++;
 	}
 
 	var command = 'move';
@@ -93,11 +93,32 @@ var createGame = function() {
 		$('#apples').text(apples);
 	}
 
+	var paused = false;
+
+	game.pause = function() {
+		if(paused) {
+			resume();
+			return;
+		}
+		paused = true;
+		clearInterval(interval);
+	};
+
+	function resume() {
+		paused = false;
+		interval = setInterval(loop, 25);
+	}
+
+	game.turnSnake = function(newDirection) {
+		snake.turnTo(newDirection);
+	};
+
 	return game;
 };
 
 $(document).ready(function() {
 	var game = createGame();
 	game.start();
+	document.onkeydown = createInputHandler(game).handle;
 });
 
