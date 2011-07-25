@@ -87,7 +87,6 @@ var createGame = function() {
 		clearInterval(loop);
 	};
 
-
 	game.turnSnake = function(newDirection) {
 		snake.turnTo(newDirection);
 	};
