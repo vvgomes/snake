@@ -4,20 +4,16 @@ var createGame = function() {
 	var apple;
 	var snake;
 	var radar;
-	var interval;
-	var apples;
+	var score;
+	var loop;
 
 	game.start = function() {
+		score = 0;
 		surface = createSurface(20);
 		radar = createRadar(surface);
-
 		placeApple();
 		placeSnake();
-
 		initView();
-
-		apples = 0;
-
 		resume();
 	};
 
@@ -44,15 +40,9 @@ var createGame = function() {
 		});
 	}
 
-	var delay = 4;
-
-	function loop() {
-		if(delay === 4) {
-			delay = 0;
-			updateView();
-			action();
-		}
-		delay++;
+	function lifeCycle() {
+		updateView();
+		action();
 	}
 
 	var command = 'move';
@@ -68,7 +58,7 @@ var createGame = function() {
 		if(radar.snakeEatenApple()) {
 			command = 'grow';
 			placeApple();
-			apples++;
+			score++;
 			return;
 		}
 
@@ -76,7 +66,7 @@ var createGame = function() {
 	}
 
 	function gameOver() {
-		clearInterval(interval);
+		clearInterval(loop);
 		alert('You just killed the poor snake :(');
 	}
 
@@ -90,7 +80,7 @@ var createGame = function() {
 			$('#surface tr:eq('+p.y+') td:eq('+p.x+')').attr('class', 'snakeBody');
 		});
 
-		$('#apples').text(apples);
+		$('#score').text(score);
 	}
 
 	var paused = false;
@@ -101,12 +91,12 @@ var createGame = function() {
 			return;
 		}
 		paused = true;
-		clearInterval(interval);
+		clearInterval(loop);
 	};
 
 	function resume() {
 		paused = false;
-		interval = setInterval(loop, 25);
+		loop = setInterval(lifeCycle, 100);
 	}
 
 	game.turnSnake = function(newDirection) {
