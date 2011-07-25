@@ -131,8 +131,9 @@ var createSnake = function(point, initialDirection) {
 	};
 
 	snake.move = function() {
-		snake.grow();
+		head(nextPosition());
 		cutTail();
+		checkForSelfCollision();
 	};
 
 	snake.grow = function() {
