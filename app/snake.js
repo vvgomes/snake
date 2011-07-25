@@ -241,3 +241,22 @@ var createInputHandler = function(game) {
 	return handler;
 };
 
+var createScore = function() {
+	var score = {};
+	var value = 0;
+
+	score.value = function() {
+		return value;
+	};
+
+	score.increase = function() {
+		value++;
+	};
+
+	score.render = function() {
+		$('#score').text(value);
+	};
+
+	return score;
+};
+

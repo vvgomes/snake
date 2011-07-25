@@ -10,13 +10,13 @@ var createGame = function() {
 	var loop;
 
 	game.start = function() {
+		score = createScore();
 		surface = createSurface(20);
 		radar = createRadar(surface);
 
 		placeApple();
 		placeSnake();
 
-		score = 0;
 		nextCommand = 'move';
 
 		initView();
@@ -42,7 +42,7 @@ var createGame = function() {
 
 	function updateView() {
 		surface.render();
-		$('#score').text(score);
+		score.render();
 	}
 
 	function lifeCycle() {
@@ -59,9 +59,9 @@ var createGame = function() {
 		}
 
 		if(radar.snakeEatenApple()) {
-			nextCommand = 'grow';
+			score.increase();
 			placeApple();
-			score++;
+			nextCommand = 'grow';
 			return;
 		}
 

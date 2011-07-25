@@ -382,3 +382,32 @@ describe('inputHandler', function() {
 
 });
 
+describe('score', function() {
+
+	var score;
+
+	beforeEach(function() {
+		score = createScore();
+	});
+
+	it('should start with zero', function() {
+		expect(score.value()).toBe(0);
+	});
+
+	it('should be able to increase', function() {
+		score.increase();
+		expect(score.value()).toBe(1);
+	});
+
+	it('should be able to render itself', function() {
+		var span = $('<span />').attr('id', 'score').hide();
+		$('body').append(span);
+
+		score.render();
+		expect($('#score').text()).toBe('0');
+
+		$('#score').remove();
+	});
+
+});
+
