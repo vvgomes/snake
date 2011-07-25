@@ -46,8 +46,9 @@ var createGame = function() {
 	}
 
 	function lifeCycle() {
-		updateView();
+		//updateView();
 		action();
+		updateView();
 	}
 
 	function action() {
