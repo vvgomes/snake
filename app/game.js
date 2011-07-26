@@ -9,19 +9,14 @@ var createGame = function() {
 	var paused;
 	var loop;
 
-	game.start = function() {
+	(function initialize() {
 		score = createScore();
 		surface = createSurface(20);
 		radar = createRadar(surface);
-
 		placeApple();
 		placeSnake();
-
 		nextCommand = 'move';
-
-		initView();
-		resume();
-	};
+	})();
 
 	function placeApple() {
 		var position = radar.randomPoint();
@@ -35,18 +30,12 @@ var createGame = function() {
 		surface.placeSnake(snake);
 	}
 
-	function initView() {
-		surface.appendToDom();
-		surface.render();
-	}
-
 	function updateView() {
 		surface.render();
 		score.render();
 	}
 
 	function lifeCycle() {
-		//updateView();
 		action();
 		updateView();
 	}
@@ -59,7 +48,7 @@ var createGame = function() {
 			return;
 		}
 
-		if(radar.snakeEatenApple()) {
+		if(radar.snakeAteApple()) {
 			score.increase();
 			placeApple();
 			nextCommand = 'grow';
@@ -74,7 +63,12 @@ var createGame = function() {
 		alert('You just killed the poor snake :(');
 	}
 
-	function resume() {
+	game.render = function() {
+		surface.appendToDom();
+		surface.render();
+	};
+
+	game.start = function() {
 		paused = false;
 		loop = setInterval(lifeCycle, 100);
 	}
@@ -97,7 +91,10 @@ var createGame = function() {
 
 $(document).ready(function() {
 	var game = createGame();
-	game.start();
-	document.onkeydown = createInputHandler(game).handle;
+	game.render();
+	document.onkeydown = function() {
+		game.start();
+		document.onkeydown = createInputHandler(game).handle;
+	};
 });
 

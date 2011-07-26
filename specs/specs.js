@@ -312,9 +312,9 @@ describe('radar', function() {
 	});
 
 	it('should detect when the snake eats the apple', function() {
-		expect(radar.snakeEatenApple()).toBeFalsy();
+		expect(radar.snakeAteApple()).toBeFalsy();
 		surface.snake().move();
-		expect(radar.snakeEatenApple()).toBeTruthy();
+		expect(radar.snakeAteApple()).toBeTruthy();
 	});
 
 });

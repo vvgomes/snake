@@ -213,7 +213,7 @@ var createRadar = function(surface) {
 		return !surface.has(snake.position());
 	};
 
-	radar.snakeEatenApple = function() {
+	radar.snakeAteApple = function() {
 		var snake = surface.snake();
 		var apple = surface.apple();
 		return snake.position().equals(apple.position());
