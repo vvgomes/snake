@@ -74,11 +74,12 @@ var createGame = function() {
 	}
 
 	game.pause = function() {
-		if(!paused) {
-			paused = true;
-			clearInterval(loop);
+		if(paused) {
+			game.start();
+			return;
 		}
-		game.start();
+		paused = true;
+		clearInterval(loop);
 	};
 
 	game.turnSnake = function(newDirection) {
