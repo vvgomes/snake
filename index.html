@@ -1,14 +1,5 @@
 <html>
 	<head>
-        <script src="http://connect.facebook.net/en_US/all.js"></script>
-        <script>
-          FB.init({
-            appId  : '127238314033156',
-            status : true, // check login status
-            cookie : true, // enable cookies to allow the server to access the session
-            xfbml  : true  // parse XFBML
-          });
-        </script>
 		<link type="text/css" rel="stylesheet" href="app/snake.css">
 		<script src="lib/jquery-1.3.2.min.js"></script>
 		<script src="lib/utils.js"></script>
@@ -16,6 +7,18 @@
 		<script src="app/game.js"></script>
 	</head>
 	<body>
+        <script src="http://connect.facebook.net/en_US/all.js"></script>
+        <fb:login-button autologoutlink="true" onlogin="OnRequestPermission();">
+        </fb:login-button>
+        <script language="javascript" type="text/javascript">
+            FB.init({
+                appId: '127238314033156',
+                status: true,
+                cookie: true,
+                xfbml: true
+            });
+        </script>
+
 		<h1>The Hungry Snake</h1>
 		<table id="surface" class="emptyPoint"></table>
 		<p>Apples eaten: <span id="score">0</span></p>
