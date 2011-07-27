@@ -18,6 +18,25 @@ var createGame = function() {
 		nextCommand = 'move';
 	})();
 
+	// state   | transition | next
+
+	// ready   | turn       | moving
+  // ready   | eat        | ready
+  // ready   | pause      | ready
+
+  // moving  | turn       | moving
+  // moving  | eat        | growing
+  // moving  | pause      | paused
+
+	// growing | turn       | moving
+	// growing | eat        | growing
+  // growing | pause      | paused
+
+  // paused  | turn       | paused
+	// paused  | eat        | paused
+  // paused  | pause      | moving
+
+
 	function placeApple() {
 		var position = radar.randomPoint();
 		apple = createApple(position);
@@ -92,9 +111,9 @@ var createGame = function() {
 $(document).ready(function() {
 	var game = createGame();
   var handler = createInputHandler(game);
-	
+
   game.render();
-  
+
 	document.onkeydown = function(event) {
 		handler.handle(event);
     game.start();

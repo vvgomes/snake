@@ -14,6 +14,7 @@ describe('point', function () {
 	it('should be equal to another point with the same coordinates', function() {
 		var another = createPoint(1, 2);
 	  expect(point.equals(another)).toBeTruthy();
+		//expect(point.equals(another)).toBeTruthy();
 	});
 
 	it('should not be equal to another point with different coordinates', function() {
@@ -408,6 +409,30 @@ describe('score', function() {
 
 		$('#score').remove();
 	});
+
+});
+
+describe('ready state', function() {
+
+	/*beforeEach(function() {
+		this.addMatchers({
+		  toHaveClass: function(className) {
+		    return this.actual.hasClass(className);
+		  }
+		});
+	});*/
+
+
+	it('should tell me the next state after turning', function() {
+		/*var game = {};
+		var ready = createReadyState(game);
+		var next = ready.turning();
+		expect(next.equals(createMovingState())).toBeTruthy();*/
+	});
+
+	it('should tell me the next state after eating', function() {});
+
+	it('should tell me the next state after pausing', function() {});
 
 });
 

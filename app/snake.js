@@ -260,3 +260,17 @@ var createScore = function() {
 	return score;
 };
 
+var createReadyState = function() {
+	var state = {};
+
+	state.turning = function() {
+		return createMovingState(game);
+	};
+
+	return state;
+};
+
+var createMovingState = function() {
+	return {};
+};
+
