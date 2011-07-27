@@ -83,7 +83,7 @@ var createGame = function() {
 	};
 
 	game.turnSnake = function(newDirection) {
-		snake.turnTo(newDirection);
+		!paused && snake.turnTo(newDirection);
 	};
 
 	return game;
