@@ -91,10 +91,14 @@ var createGame = function() {
 
 $(document).ready(function() {
 	var game = createGame();
-	game.render();
-	document.onkeydown = function() {
-		game.start();
-		document.onkeydown = createInputHandler(game).handle;
+  var handler = createInputHandler(game);
+	
+  game.render();
+  
+	document.onkeydown = function(event) {
+		handler.handle(event);
+    game.start();
+		document.onkeydown = handler.handle;
 	};
 });
 
