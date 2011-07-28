@@ -18,25 +18,6 @@ var createGame = function() {
 		nextCommand = 'move';
 	})();
 
-	// state   | transition | next
-
-	// ready   | turn       | moving
-  // ready   | eat        | ready
-  // ready   | pause      | ready
-
-  // moving  | turn       | moving
-  // moving  | eat        | growing
-  // moving  | pause      | paused
-
-	// growing | turn       | moving
-	// growing | eat        | growing
-  // growing | pause      | paused
-
-  // paused  | turn       | paused
-	// paused  | eat        | paused
-  // paused  | pause      | moving
-
-
 	function placeApple() {
 		var position = radar.randomPoint();
 		apple = createApple(position);
@@ -54,26 +35,23 @@ var createGame = function() {
 		score.render();
 	}
 
-	function lifeCycle() {
-		action();
+	function play() {
+		lifeCicle();
 		updateView();
 	}
 
-	function action() {
+	function lifeCicle() {
 		snake[nextCommand]();
-
 		if(!snake.alive() || radar.snakeOutOfBounds()) {
 			gameOver();
 			return;
 		}
-
 		if(radar.snakeAteApple()) {
 			score.increase();
 			placeApple();
 			nextCommand = 'grow';
 			return;
 		}
-
 		nextCommand = 'move';
 	}
 
@@ -89,7 +67,7 @@ var createGame = function() {
 
 	game.start = function() {
 		paused = false;
-		loop = setInterval(lifeCycle, 100);
+		loop = setInterval(play, 100);
 	}
 
 	game.pause = function() {

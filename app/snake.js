@@ -190,8 +190,8 @@ var createRadar = function(surface) {
 	var radar = {};
 
 	function availablePoints() {
-		var snake = surface.snake();
 		var apple = surface.apple();
+		var snake = surface.snake();
 		var used = snake ? snake.body() : [];
 		apple && (used = used.concat(apple.position()));
 		return surface.points().without(used);
@@ -258,19 +258,5 @@ var createScore = function() {
 	};
 
 	return score;
-};
-
-var createReadyState = function() {
-	var state = {};
-
-	state.turning = function() {
-		return createMovingState(game);
-	};
-
-	return state;
-};
-
-var createMovingState = function() {
-	return {};
 };
 
