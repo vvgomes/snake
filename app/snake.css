@@ -34,5 +34,6 @@ p {
 
 .apple {
 	background-color: red;
+	border-radius: 10px;
 }
 
