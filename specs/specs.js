@@ -94,7 +94,7 @@ describe('surface', function() {
 			expect($('#surface').html()).toBe(html);
 		});
 
-		it('should render  while rendering itself', function() {
+		it('should render its children while rendering itself', function() {
 			var apple = { render: function(){} }
 			var snake = { render: function(){} }
 			spyOn(apple, 'render');
